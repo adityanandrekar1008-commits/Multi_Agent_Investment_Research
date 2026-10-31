@@ -1,0 +1,17 @@
+Feature_Set,Company,Observations,Actual_Declines,Predicted_Declines,Accuracy,True_Negatives,False_Alarms,Missed_Declines,Detected_Declines
+Two complete margins,AAPL,4,2,0,0.5,2,0,2,0
+Two complete margins,AMZN,4,1,4,0.25,0,3,0,1
+Two complete margins,GOOGL,4,1,0,0.75,3,0,1,0
+Two complete margins,META,4,1,1,0.5,2,1,1,0
+Two complete margins,MSFT,4,0,0,1.0,4,0,0,0
+Two complete margins,NVDA,4,0,0,1.0,4,0,0,0
+Two complete margins,RELIANCE.NS,3,1,3,0.3333333333333333,0,2,0,1
+Two complete margins,TSLA,4,2,4,0.5,0,2,0,2
+All five ratios,AAPL,4,2,4,0.5,0,2,0,2
+All five ratios,AMZN,4,1,4,0.25,0,3,0,1
+All five ratios,GOOGL,4,1,0,0.75,3,0,1,0
+All five ratios,META,4,1,1,0.5,2,1,1,0
+All five ratios,MSFT,4,0,0,1.0,4,0,0,0
+All five ratios,NVDA,4,0,2,0.5,2,2,0,0
+All five ratios,RELIANCE.NS,3,1,3,0.3333333333333333,0,2,0,1
+All five ratios,TSLA,4,2,0,0.5,2,0,2,0

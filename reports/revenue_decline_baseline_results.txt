@@ -1,0 +1,44 @@
+REVENUE DECLINE MODEL: INITIAL EXPERIMENT
+================================================
+Total rows: 31
+Training rows: 21
+Test rows: 10
+Features: ['Net_Income_Margin', 'Operating_Margin', 'Debt_To_Assets', 'Debt_To_Equity', 'Current_Ratio']
+Training dates: 2025-03-31 to 2025-12-31
+Test dates: 2025-12-31 to 2026-04-30
+
+Training target counts:
+Next_Period_Revenue_Decline
+0    15
+1     6
+
+Test target counts:
+Next_Period_Revenue_Decline
+0    8
+1    2
+
+--- Majority-class baseline ---
+Accuracy: 0.800
+Balanced accuracy: 0.500
+
+--- Logistic Regression ---
+Accuracy: 0.500
+Balanced accuracy: 0.500
+
+Classification report:
+                    precision    recall  f1-score   support
+
+No revenue decline       0.80      0.50      0.62         8
+   Revenue decline       0.20      0.50      0.29         2
+
+          accuracy                           0.50        10
+         macro avg       0.50      0.50      0.45        10
+      weighted avg       0.68      0.50      0.55        10
+
+Confusion matrix (actual rows, predicted columns):
+[[4 4]
+ [1 1]]
+
+IMPORTANT: This is a small proof-of-concept experiment, not a validated investment-risk predictor.
+The chronological split is by report date, not by company. Company observations may appear in both sets.
+Future outcome columns, Date, and Ticker were not used as model features.
