@@ -45,9 +45,9 @@ SELECTED_FIELDS = {
 }
 
 
-def load_statement(ticker, statement_type):
+def load_statement(ticker, statement_type, input_dir=None):
     """Load one statement and keep only selected available fields."""
-    file_path = INPUT_DIR / f"{ticker}_{statement_type}.csv"
+    file_path = Path(input_dir or INPUT_DIR) / f"{ticker}_{statement_type}.csv"
 
     if not file_path.exists():
         print(f"  Missing file: {file_path.name}")
@@ -85,20 +85,25 @@ def load_statement(ticker, statement_type):
     return result
 
 
-def main():
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+def build_quarterly_dataset(input_dir=None, tickers=None):
+    """Combine each company's quarterly statements into one table.
 
-    if OUTPUT_FILE.exists():
-        print(f"Output already exists: {OUTPUT_FILE}")
-        print("No files were changed. Rename or move the output file")
-        print("if you intentionally want to create it again.")
-        return
+    Returns a DataFrame (one row per company and income-statement date), or
+    None when no usable income statement was found.
+    """
+    input_dir = Path(input_dir or INPUT_DIR)
+    income_files = sorted(input_dir.glob("*_income_statement.csv"))
 
-    income_files = sorted(INPUT_DIR.glob("*_income_statement.csv"))
+    if tickers is not None:
+        wanted = set(tickers)
+        income_files = [
+            f for f in income_files
+            if f.name.replace("_income_statement.csv", "") in wanted
+        ]
 
     if not income_files:
         print("No quarterly income statement files were found.")
-        return
+        return None
 
     combined_parts = []
 
@@ -109,7 +114,7 @@ def main():
 
         print(f"\nProcessing {ticker}...")
 
-        income = load_statement(ticker, "income_statement")
+        income = load_statement(ticker, "income_statement", input_dir)
 
         if income is None:
             continue
@@ -118,7 +123,7 @@ def main():
         combined = income
 
         for statement_type in ["balance_sheet", "cash_flow"]:
-            extra = load_statement(ticker, statement_type)
+            extra = load_statement(ticker, statement_type, input_dir)
 
             if extra is None:
                 continue
@@ -136,7 +141,7 @@ def main():
 
     if not combined_parts:
         print("No usable income statement data was found.")
-        return
+        return None
 
     final_data = pd.concat(combined_parts, ignore_index=True)
     final_data = final_data.sort_values(
@@ -145,6 +150,23 @@ def main():
 
     if final_data.duplicated(["Ticker", "Date"]).any():
         raise ValueError("Duplicate company/date records detected.")
+
+    return final_data
+
+
+def main():
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    if OUTPUT_FILE.exists():
+        print(f"Output already exists: {OUTPUT_FILE}")
+        print("No files were changed. Rename or move the output file")
+        print("if you intentionally want to create it again.")
+        return
+
+    final_data = build_quarterly_dataset()
+
+    if final_data is None:
+        return
 
     # Save only to a new output file; source files remain unchanged.
     final_data.to_csv(OUTPUT_FILE, index=False)

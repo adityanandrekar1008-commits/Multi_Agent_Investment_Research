@@ -1,0 +1,590 @@
+{
+  "dataset": {
+    "features_file": "D:\\1\\PP\\Swa PRO\\Multi_Agent_Investment_Research\\data\\processed\\revenue_decline_features.csv",
+    "rows": 31,
+    "companies": [
+      "AAPL",
+      "AMZN",
+      "GOOGL",
+      "META",
+      "MSFT",
+      "NVDA",
+      "RELIANCE.NS",
+      "TSLA"
+    ],
+    "date_range": [
+      "2025-03-31",
+      "2026-04-30"
+    ],
+    "distinct_dates": 9,
+    "class_counts": {
+      "no_decline": 23,
+      "decline": 8
+    },
+    "declines_by_company": {
+      "AAPL": [
+        2,
+        4
+      ],
+      "AMZN": [
+        1,
+        4
+      ],
+      "GOOGL": [
+        1,
+        4
+      ],
+      "META": [
+        1,
+        4
+      ],
+      "MSFT": [
+        0,
+        4
+      ],
+      "NVDA": [
+        0,
+        4
+      ],
+      "RELIANCE.NS": [
+        1,
+        3
+      ],
+      "TSLA": [
+        2,
+        4
+      ]
+    },
+    "decline_rate_by_period_month": {
+      "1": {
+        "rows": 1,
+        "declines": 0
+      },
+      "3": {
+        "rows": 8,
+        "declines": 2
+      },
+      "4": {
+        "rows": 1,
+        "declines": 0
+      },
+      "6": {
+        "rows": 6,
+        "declines": 0
+      },
+      "7": {
+        "rows": 1,
+        "declines": 0
+      },
+      "9": {
+        "rows": 6,
+        "declines": 1
+      },
+      "10": {
+        "rows": 1,
+        "declines": 0
+      },
+      "12": {
+        "rows": 7,
+        "declines": 5
+      }
+    },
+    "yoy_target_feasibility": {
+      "labels": 9,
+      "declines": 0
+    }
+  },
+  "target": {
+    "name": "Next_Period_Revenue_Decline",
+    "definition": "1 if the next reported quarter's revenue is lower than the current quarter's; 0 otherwise. Only transitions 70-110 days apart are labelled.",
+    "horizon": "next reported quarter (about 3 months)"
+  },
+  "models": {
+    "majority_baseline": "Always predicts the most common training label.",
+    "seasonal_baseline": "Majority training label for quarters ending in the same calendar month (seasonality only).",
+    "logreg_5_ratios": "Proof-of-concept model: 5 ratios, logistic regression.",
+    "logreg_margins": "Same model with the two margin ratios only."
+  },
+  "schemes": {
+    "walk_forward": {
+      "description": "Time-aware: train only on labels already observable at the test date; test on that date's rows.",
+      "evaluated_rows": 15,
+      "skipped_rows": 16,
+      "skip_reasons": {
+        "fewer than 10 training rows": 16
+      },
+      "models": {
+        "majority_baseline": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 0,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 9,
+            "fp": 0,
+            "fn": 6,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 0,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 9,
+            "fp": 0,
+            "fn": 6,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": 0.9651741293532339
+        },
+        "logreg_5_ratios": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 5,
+          "accuracy": 0.5333333333333333,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.4,
+          "recall_decline": 0.3333333333333333,
+          "f1_decline": 0.36363636363636365,
+          "confusion_matrix": {
+            "tn": 6,
+            "fp": 3,
+            "fn": 4,
+            "tp": 2
+          },
+          "balanced_accuracy_95ci": [
+            0.25,
+            0.7777777777777777
+          ],
+          "permutation_p_value": 0.5323383084577115
+        },
+        "logreg_margins": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 5,
+          "accuracy": 0.5333333333333333,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.4,
+          "recall_decline": 0.3333333333333333,
+          "f1_decline": 0.36363636363636365,
+          "confusion_matrix": {
+            "tn": 6,
+            "fp": 3,
+            "fn": 4,
+            "tp": 2
+          },
+          "balanced_accuracy_95ci": [
+            0.25,
+            0.7777777777777777
+          ],
+          "permutation_p_value": 0.5472636815920398
+        }
+      },
+      "per_date": {
+        "2025-12-31": {
+          "test_rows": 7,
+          "actual_declines": 5,
+          "train_rows": [
+            15,
+            15
+          ],
+          "correct": {
+            "majority_baseline": 2,
+            "seasonal_baseline": 2,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2026-01-31": {
+          "test_rows": 1,
+          "actual_declines": 0,
+          "train_rows": [
+            16,
+            16
+          ],
+          "correct": {
+            "majority_baseline": 1,
+            "seasonal_baseline": 1,
+            "logreg_5_ratios": 1,
+            "logreg_margins": 1
+          }
+        },
+        "2026-03-31": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            23,
+            23
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2026-04-30": {
+          "test_rows": 1,
+          "actual_declines": 0,
+          "train_rows": [
+            24,
+            24
+          ],
+          "correct": {
+            "majority_baseline": 1,
+            "seasonal_baseline": 1,
+            "logreg_5_ratios": 1,
+            "logreg_margins": 1
+          }
+        }
+      }
+    },
+    "unseen_company": {
+      "description": "Company-aware: leave one company out, train on the others at any date (can learn from the future of other companies).",
+      "evaluated_rows": 31,
+      "skipped_rows": 0,
+      "skip_reasons": {},
+      "models": {
+        "majority_baseline": {
+          "n": 31,
+          "actual_declines": 8,
+          "actual_no_decline": 23,
+          "predicted_declines": 0,
+          "accuracy": 0.7419354838709677,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 23,
+            "fp": 0,
+            "fn": 8,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 31,
+          "actual_declines": 8,
+          "actual_no_decline": 23,
+          "predicted_declines": 7,
+          "accuracy": 0.8387096774193549,
+          "balanced_accuracy": 0.7690217391304348,
+          "precision_decline": 0.7142857142857143,
+          "recall_decline": 0.625,
+          "f1_decline": 0.6666666666666666,
+          "confusion_matrix": {
+            "tn": 21,
+            "fp": 2,
+            "fn": 3,
+            "tp": 5
+          },
+          "balanced_accuracy_95ci": [
+            0.5787985248447205,
+            0.956567028985507
+          ],
+          "permutation_p_value": 0.01990049751243781
+        },
+        "logreg_5_ratios": {
+          "n": 31,
+          "actual_declines": 8,
+          "actual_no_decline": 23,
+          "predicted_declines": 14,
+          "accuracy": 0.5483870967741935,
+          "balanced_accuracy": 0.5326086956521738,
+          "precision_decline": 0.2857142857142857,
+          "recall_decline": 0.5,
+          "f1_decline": 0.36363636363636365,
+          "confusion_matrix": {
+            "tn": 13,
+            "fp": 10,
+            "fn": 4,
+            "tp": 4
+          },
+          "balanced_accuracy_95ci": [
+            0.3233333333333333,
+            0.7366874999999999
+          ],
+          "permutation_p_value": 0.43781094527363185
+        },
+        "logreg_margins": {
+          "n": 31,
+          "actual_declines": 8,
+          "actual_no_decline": 23,
+          "predicted_declines": 12,
+          "accuracy": 0.6129032258064516,
+          "balanced_accuracy": 0.5760869565217391,
+          "precision_decline": 0.3333333333333333,
+          "recall_decline": 0.5,
+          "f1_decline": 0.4,
+          "confusion_matrix": {
+            "tn": 15,
+            "fp": 8,
+            "fn": 4,
+            "tp": 4
+          },
+          "balanced_accuracy_95ci": [
+            0.36333333333333334,
+            0.7853940217391301
+          ],
+          "permutation_p_value": 0.38308457711442784
+        }
+      },
+      "per_company": {
+        "AAPL": {
+          "test_rows": 4,
+          "actual_declines": 2,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 2,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 2
+          }
+        },
+        "AMZN": {
+          "test_rows": 4,
+          "actual_declines": 1,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 1,
+            "logreg_margins": 1
+          }
+        },
+        "GOOGL": {
+          "test_rows": 4,
+          "actual_declines": 1,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "META": {
+          "test_rows": 4,
+          "actual_declines": 1,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 2
+          }
+        },
+        "MSFT": {
+          "test_rows": 4,
+          "actual_declines": 0,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 4
+          }
+        },
+        "NVDA": {
+          "test_rows": 4,
+          "actual_declines": 0,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 4
+          }
+        },
+        "RELIANCE.NS": {
+          "test_rows": 3,
+          "actual_declines": 1,
+          "train_rows": [
+            28,
+            28
+          ],
+          "correct": {
+            "majority_baseline": 2,
+            "seasonal_baseline": 1,
+            "logreg_5_ratios": 1,
+            "logreg_margins": 1
+          }
+        },
+        "TSLA": {
+          "test_rows": 4,
+          "actual_declines": 2,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 2,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 2
+          }
+        }
+      }
+    },
+    "walk_forward_unseen_company": {
+      "description": "Time- and company-aware (strictest): train only on other companies' labels observable at the test date.",
+      "evaluated_rows": 15,
+      "skipped_rows": 16,
+      "skip_reasons": {
+        "fewer than 10 training rows": 16
+      },
+      "models": {
+        "majority_baseline": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 0,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 9,
+            "fp": 0,
+            "fn": 6,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 0,
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 9,
+            "fp": 0,
+            "fn": 6,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": 0.8059701492537313
+        },
+        "logreg_5_ratios": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 4,
+          "accuracy": 0.7333333333333333,
+          "balanced_accuracy": 0.6944444444444444,
+          "precision_decline": 0.75,
+          "recall_decline": 0.5,
+          "f1_decline": 0.6,
+          "confusion_matrix": {
+            "tn": 8,
+            "fp": 1,
+            "fn": 3,
+            "tp": 3
+          },
+          "balanced_accuracy_95ci": [
+            0.4583333333333333,
+            0.9285714285714286
+          ],
+          "permutation_p_value": 0.12935323383084577
+        },
+        "logreg_margins": {
+          "n": 15,
+          "actual_declines": 6,
+          "actual_no_decline": 9,
+          "predicted_declines": 5,
+          "accuracy": 0.5333333333333333,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.4,
+          "recall_decline": 0.3333333333333333,
+          "f1_decline": 0.36363636363636365,
+          "confusion_matrix": {
+            "tn": 6,
+            "fp": 3,
+            "fn": 4,
+            "tp": 2
+          },
+          "balanced_accuracy_95ci": [
+            0.25,
+            0.7777777777777777
+          ],
+          "permutation_p_value": 0.5223880597014925
+        }
+      }
+    }
+  },
+  "settings": {
+    "min_train_rows": 10,
+    "n_permutations": 200,
+    "n_bootstrap": 2000,
+    "seed": 42
+  },
+  "notes": [],
+  "fit_warnings": {},
+  "conclusions": [
+    "walk_forward: the 5-ratio model has balanced accuracy 0.50, 95% interval 0.25-0.78 (permutation p = 0.532), not distinguishable from chance; it is no better than the seasonal rule (0.50, p = 0.965) on 15 test rows with 6 declines.",
+    "unseen_company: the 5-ratio model has balanced accuracy 0.53, 95% interval 0.32-0.74 (permutation p = 0.438), not distinguishable from chance; it is worse than the seasonal rule (0.77, p = 0.020) on 31 test rows with 8 declines.",
+    "walk_forward_unseen_company: the 5-ratio model has balanced accuracy 0.69, 95% interval 0.46-0.93 (permutation p = 0.129), not distinguishable from chance; it is better than the seasonal rule (0.50, p = 0.806) on 15 test rows with 6 declines.",
+    "Multiple tests: 9 model/scheme combinations were tested; at the 5% level about 0.5 would fall below 0.05 by chance alone. 1 did, 0 of them with p <= 0.01, which chance rarely produces. A single result between 0.01 and 0.05 is weak evidence.",
+    "A seasonality-free target (next quarter vs the same quarter a year earlier) would have only 9 labels with 0 declines in this data: it needs a longer history.",
+    "Overall: there is no evidence that the model predicts revenue declines better than chance. Treat its output as an experimental research signal only, never as a risk score or investment advice."
+  ]
+}

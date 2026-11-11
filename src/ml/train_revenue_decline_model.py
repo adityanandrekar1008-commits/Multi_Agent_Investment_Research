@@ -1,4 +1,5 @@
 
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -16,6 +17,12 @@ from sklearn.preprocessing import StandardScaler
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+# Allow `python src/ml/train_revenue_decline_model.py` as well as imports.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ml.splits import date_boundary_split  # noqa: E402
 
 INPUT_FILE = (
     PROJECT_ROOT
@@ -60,11 +67,10 @@ def main():
     if len(available_features) < 1:
         raise ValueError("No usable model features were found.")
 
-    # Keep the later dates as the test set.
-    split_index = int(len(df) * 0.70)
-
-    train = df.iloc[:split_index].copy()
-    test = df.iloc[split_index:].copy()
+    # Keep the later dates as the test set. Split on a date boundary so no
+    # reporting date is in both sets (a row-position split put some
+    # companies' 2025-12-31 rows in training and others in test).
+    train, test, _ = date_boundary_split(df, train_share=0.70)
 
     X_train = train[available_features]
     y_train = train[TARGET].astype(int)
@@ -155,8 +161,12 @@ def main():
         "not a validated investment-risk predictor."
     )
     results.append(
-        "The chronological split is by report date, not by company. "
-        "Company observations may appear in both sets."
+        "The chronological split is by report date (no date is in both "
+        "sets), not by company. Company observations may appear in both sets."
+    )
+    results.append(
+        "For the full time- and company-aware evaluation with baselines, "
+        "see model_evaluation.md (src/ml/evaluate_revenue_decline.py)."
     )
     results.append(
         "Future outcome columns, Date, and Ticker were not used "

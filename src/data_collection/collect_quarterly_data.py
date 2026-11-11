@@ -27,6 +27,22 @@ STATEMENTS = {
 }
 
 
+def statement_to_rows(statement, ticker):
+    """Turn a yfinance statement (line items x dates) into one row per
+    reporting date, with Date and Ticker first. Missing values are kept."""
+    result = statement.T.copy()
+    result.index.name = "Date"
+    result = result.reset_index()
+    result["Ticker"] = ticker
+
+    columns = ["Date", "Ticker"] + [
+        column
+        for column in result.columns
+        if column not in ["Date", "Ticker"]
+    ]
+    return result[columns]
+
+
 def collect_statement(ticker, statement_name, attribute):
     """Collect one quarterly statement without changing missing values."""
     print(f"  Downloading {statement_name}...")
@@ -39,18 +55,7 @@ def collect_statement(ticker, statement_name, attribute):
             return
 
         # Convert the statement's date columns into rows.
-        result = statement.T.copy()
-        result.index.name = "Date"
-        result = result.reset_index()
-        result["Ticker"] = ticker
-
-        # Put identifying columns first.
-        columns = ["Date", "Ticker"] + [
-            column
-            for column in result.columns
-            if column not in ["Date", "Ticker"]
-        ]
-        result = result[columns]
+        result = statement_to_rows(statement, ticker)
 
         output_file = (
             OUTPUT_DIR / f"{ticker}_{statement_name}.csv"

@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "company_analysis/1.0",
+  "title": "Company analysis result",
+  "description": "Output of `python main.py analyze` and `GET /api/analyze`. See docs/output_schema.md.",
+  "type": "object",
+  "required": [
+    "schema_version", "status", "generated_at", "request", "company", "source",
+    "coverage", "metrics", "risk_flags", "ml_signal", "data_quality", "warnings",
+    "error", "disclaimer", "files"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "company_analysis/1.0"},
+    "status": {"enum": ["ok", "error"]},
+    "generated_at": {"type": "string"},
+    "request": {
+      "type": "object",
+      "required": ["input", "prefer_indian", "as_of"],
+      "additionalProperties": false,
+      "properties": {
+        "input": {"type": "string"},
+        "prefer_indian": {"type": "boolean"},
+        "as_of": {"type": ["string", "null"]}
+      }
+    },
+    "company": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/company"}]},
+    "source": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/source"}]},
+    "coverage": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/coverage"}]},
+    "metrics": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/metrics"}]},
+    "risk_flags": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/risk_flags"}]},
+    "ml_signal": {"oneOf": [
+      {"type": "null"},
+      {"$ref": "#/$defs/ml_signal_available"},
+      {"$ref": "#/$defs/ml_signal_unavailable"}
+    ]},
+    "data_quality": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/data_quality"}]},
+    "warnings": {"type": "array", "items": {"$ref": "#/$defs/warning"}},
+    "error": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/error"}]},
+    "disclaimer": {"type": "string"},
+    "files": {"type": "object", "additionalProperties": {"type": "string"}}
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "status": {"const": "ok"},
+        "error": {"type": "null"},
+        "company": {"type": "object"},
+        "metrics": {"type": "object"},
+        "risk_flags": {"type": "object"},
+        "ml_signal": {"type": "object"}
+      }
+    },
+    {
+      "properties": {
+        "status": {"const": "error"},
+        "error": {"type": "object"}
+      }
+    }
+  ],
+  "$defs": {
+    "nullable_number": {"type": ["number", "null"]},
+    "nullable_string": {"type": ["string", "null"]},
+    "warning": {
+      "type": "object",
+      "required": ["code", "message"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"type": "string"},
+        "message": {"type": "string"}
+      }
+    },
+    "error": {
+      "type": "object",
+      "required": ["code", "message", "candidates"],
+      "additionalProperties": false,
+      "properties": {
+        "code": {"enum": [
+          "empty_input", "unknown_company", "not_a_company",
+          "no_financial_data", "provider_error", "internal_error"
+        ]},
+        "message": {"type": "string"},
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["symbol"],
+            "properties": {
+              "symbol": {"type": "string"},
+              "name": {"$ref": "#/$defs/nullable_string"},
+              "exchange": {"$ref": "#/$defs/nullable_string"},
+              "type": {"$ref": "#/$defs/nullable_string"}
+            }
+          }
+        }
+      }
+    },
+    "company": {
+      "type": "object",
+      "required": [
+        "symbol", "name", "exchange", "country", "sector", "industry",
+        "reporting_currency", "trading_currency", "resolution"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {"type": "string"},
+        "name": {"$ref": "#/$defs/nullable_string"},
+        "exchange": {"$ref": "#/$defs/nullable_string"},
+        "country": {"$ref": "#/$defs/nullable_string"},
+        "sector": {"$ref": "#/$defs/nullable_string"},
+        "industry": {"$ref": "#/$defs/nullable_string"},
+        "reporting_currency": {"$ref": "#/$defs/nullable_string"},
+        "trading_currency": {"$ref": "#/$defs/nullable_string"},
+        "resolution": {
+          "type": "object",
+          "required": ["method", "alternatives"],
+          "additionalProperties": false,
+          "properties": {
+            "method": {"enum": ["exact", "suffix", "as_typed", "name_search"]},
+            "alternatives": {"type": "array", "items": {"type": "object"}}
+          }
+        }
+      }
+    },
+    "statement_info": {
+      "type": "object",
+      "required": ["available", "periods"],
+      "additionalProperties": false,
+      "properties": {
+        "available": {"type": "boolean"},
+        "periods": {"type": "integer"},
+        "latest_period": {"$ref": "#/$defs/nullable_string"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["provider", "retrieved_at", "frequency", "statements", "note"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {"type": "string"},
+        "retrieved_at": {"type": "string"},
+        "frequency": {"const": "quarterly"},
+        "statements": {
+          "type": "object",
+          "required": ["income_statement", "balance_sheet", "cash_flow"],
+          "additionalProperties": false,
+          "properties": {
+            "income_statement": {"$ref": "#/$defs/statement_info"},
+            "balance_sheet": {"$ref": "#/$defs/statement_info"},
+            "cash_flow": {"$ref": "#/$defs/statement_info"}
+          }
+        },
+        "note": {"type": "string"}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "usable_quarters", "first_period", "latest_period",
+        "fiscal_quarter_end_months", "key_field_coverage"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "usable_quarters": {"type": ["integer", "null"]},
+        "first_period": {"$ref": "#/$defs/nullable_string"},
+        "latest_period": {"$ref": "#/$defs/nullable_string"},
+        "fiscal_quarter_end_months": {
+          "type": ["array", "null"], "items": {"type": "integer"}
+        },
+        "key_field_coverage": {
+          "type": ["object", "null"], "additionalProperties": {"type": "number"}
+        }
+      }
+    },
+    "number_map": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/nullable_number"}
+    },
+    "period": {
+      "type": "object",
+      "required": ["period_end", "values", "ratios", "changes"],
+      "additionalProperties": false,
+      "properties": {
+        "period_end": {"type": "string"},
+        "values": {"$ref": "#/$defs/number_map"},
+        "ratios": {"$ref": "#/$defs/number_map"},
+        "changes": {"$ref": "#/$defs/number_map"}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "required": ["currency", "latest_period", "latest", "periods", "ratio_definitions"],
+      "additionalProperties": false,
+      "properties": {
+        "currency": {"$ref": "#/$defs/nullable_string"},
+        "latest_period": {"$ref": "#/$defs/nullable_string"},
+        "latest": {"oneOf": [
+          {"type": "null"},
+          {
+            "type": "object",
+            "required": ["values", "ratios", "changes"],
+            "additionalProperties": false,
+            "properties": {
+              "values": {"$ref": "#/$defs/number_map"},
+              "ratios": {"$ref": "#/$defs/number_map"},
+              "changes": {"$ref": "#/$defs/number_map"}
+            }
+          }
+        ]},
+        "periods": {"type": "array", "items": {"$ref": "#/$defs/period"}},
+        "ratio_definitions": {
+          "type": "object", "additionalProperties": {"type": "string"}
+        }
+      }
+    },
+    "risk_flag": {
+      "type": "object",
+      "required": [
+        "id", "category", "severity", "title", "rule", "status", "value",
+        "threshold", "period_end", "inputs", "explanation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"enum": [
+          "net_loss", "operating_loss", "revenue_decline_yoy",
+          "operating_margin_drop_yoy", "low_current_ratio", "negative_equity",
+          "high_debt_to_equity", "high_debt_to_assets", "low_interest_coverage",
+          "negative_operating_cash_flow", "negative_free_cash_flow"
+        ]},
+        "category": {"enum": [
+          "profitability", "growth", "liquidity", "leverage", "solvency", "cash_flow"
+        ]},
+        "severity": {"enum": ["high", "medium", "low"]},
+        "title": {"type": "string"},
+        "rule": {"type": "string"},
+        "status": {"enum": ["triggered", "not_triggered", "not_evaluable"]},
+        "value": {"$ref": "#/$defs/nullable_number"},
+        "threshold": {"$ref": "#/$defs/nullable_number"},
+        "period_end": {"$ref": "#/$defs/nullable_string"},
+        "inputs": {"$ref": "#/$defs/number_map"},
+        "explanation": {"type": "string"}
+      }
+    },
+    "risk_flags": {
+      "type": "object",
+      "required": ["summary", "flags"],
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": [
+            "rules_version", "evaluated", "not_evaluable", "triggered",
+            "triggered_by_severity"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "rules_version": {"type": "string"},
+            "evaluated": {"type": "integer"},
+            "not_evaluable": {"type": "integer"},
+            "triggered": {"type": "integer"},
+            "triggered_by_severity": {
+              "type": "object",
+              "required": ["high", "medium", "low"],
+              "additionalProperties": false,
+              "properties": {
+                "high": {"type": "integer"},
+                "medium": {"type": "integer"},
+                "low": {"type": "integer"}
+              }
+            }
+          }
+        },
+        "flags": {"type": "array", "items": {"$ref": "#/$defs/risk_flag"}}
+      }
+    },
+    "ml_evaluation": {
+      "type": "object",
+      "required": ["available"],
+      "properties": {
+        "available": {"type": "boolean"},
+        "verdict": {"$ref": "#/$defs/nullable_string"},
+        "schemes": {"type": "object"},
+        "report": {"type": "string"},
+        "note": {"type": "string"}
+      }
+    },
+    "ml_signal_unavailable": {
+      "type": "object",
+      "required": ["status", "reason", "label", "model", "evaluation", "limitations"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"const": "unavailable"},
+        "reason": {"type": "string"},
+        "label": {"const": "experimental"},
+        "model": {"type": "string"},
+        "evaluation": {"$ref": "#/$defs/ml_evaluation"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "ml_signal_available": {
+      "type": "object",
+      "required": [
+        "status", "label", "recommended_use", "model", "target", "horizon",
+        "period_end", "score", "score_meaning", "predicted_class", "intercept",
+        "inputs", "top_contributions", "contribution_note", "training",
+        "evaluation", "limitations"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"const": "available"},
+        "label": {"const": "experimental"},
+        "recommended_use": {"type": "string"},
+        "model": {"type": "string"},
+        "target": {"type": "string"},
+        "horizon": {"type": "string"},
+        "period_end": {"$ref": "#/$defs/nullable_string"},
+        "score": {"type": "number"},
+        "score_meaning": {"type": "string"},
+        "predicted_class": {"enum": ["decline", "no_decline"]},
+        "intercept": {"type": "number"},
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["value", "imputed", "value_used", "training_median", "contribution"],
+            "additionalProperties": false,
+            "properties": {
+              "value": {"$ref": "#/$defs/nullable_number"},
+              "imputed": {"type": "boolean"},
+              "value_used": {"type": "number"},
+              "training_median": {"type": "number"},
+              "contribution": {"type": "number"}
+            }
+          }
+        },
+        "top_contributions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["feature", "contribution", "direction"],
+            "additionalProperties": false,
+            "properties": {
+              "feature": {"type": "string"},
+              "contribution": {"type": "number"},
+              "direction": {"enum": ["towards decline", "towards no decline"]}
+            }
+          }
+        },
+        "contribution_note": {"type": "string"},
+        "training": {
+          "type": "object",
+          "required": ["rows", "companies", "period_range", "declines"],
+          "additionalProperties": false,
+          "properties": {
+            "rows": {"type": "integer"},
+            "companies": {"type": "array", "items": {"type": "string"}},
+            "period_range": {"type": "array", "items": {"type": "string"}},
+            "declines": {"type": "integer"}
+          }
+        },
+        "evaluation": {"$ref": "#/$defs/ml_evaluation"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": ["severity", "check", "ticker", "period", "message", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "severity": {"enum": ["error", "warning", "info"]},
+        "check": {"type": "string"},
+        "ticker": {"$ref": "#/$defs/nullable_string"},
+        "period": {"$ref": "#/$defs/nullable_string"},
+        "message": {"type": "string"},
+        "value": {"$ref": "#/$defs/nullable_number"}
+      }
+    },
+    "data_quality": {
+      "type": "object",
+      "required": ["finding_counts", "findings", "ratio_formula_check"],
+      "additionalProperties": false,
+      "properties": {
+        "finding_counts": {
+          "type": "object",
+          "required": ["error", "warning", "info"],
+          "additionalProperties": false,
+          "properties": {
+            "error": {"type": "integer"},
+            "warning": {"type": "integer"},
+            "info": {"type": "integer"}
+          }
+        },
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "ratio_formula_check": {
+          "type": "object", "additionalProperties": {"type": "string"}
+        }
+      }
+    }
+  }
+}

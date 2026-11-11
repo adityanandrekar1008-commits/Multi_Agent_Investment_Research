@@ -49,8 +49,10 @@ y = df[TARGET]
 
 # Separate numerical and categorical features
 numeric_columns = X.select_dtypes(include=["number"]).columns.tolist()
+# "str" is listed explicitly: pandas 3 stores text as the str dtype and will
+# stop matching it with "object" in a future version.
 categorical_columns = X.select_dtypes(
-    include=["object", "category", "bool"]
+    include=["object", "str", "category", "bool"]
 ).columns.tolist()
 
 # Fill missing numerical values with each column's median

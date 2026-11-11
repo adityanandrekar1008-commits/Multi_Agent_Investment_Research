@@ -93,7 +93,13 @@ def _search_company_name(query: str) -> Optional[str]:
 
 
 def resolve_ticker(user_input: str) -> Optional[str]:
-    """Resolve a ticker or company name, preferring NSE/BSE for bare Indian symbols."""
+    """Resolve a ticker or company name.
+
+    A bare symbol is tried as typed first, then on NSE/BSE. Trying NSE/BSE
+    first resolved "META" to META.BO (String Metaverse Ltd) instead of Meta
+    Platforms. Bare Indian symbols such as RELIANCE or TCS have no as-typed
+    listing, so they still resolve to .NS.
+    """
     value = user_input.strip().upper()
     if not value:
         return None
@@ -105,8 +111,8 @@ def resolve_ticker(user_input: str) -> Optional[str]:
         print(f"No income-statement data was found for ticker '{value}'.")
         return None
 
-    # A bare symbol could be an NSE or BSE symbol, or an international symbol.
-    for candidate in (f"{value}.NS", f"{value}.BO", value):
+    # A bare symbol could be an international symbol, or an NSE or BSE symbol.
+    for candidate in (value, f"{value}.NS", f"{value}.BO"):
         if _has_financial_statements(candidate):
             return candidate
 

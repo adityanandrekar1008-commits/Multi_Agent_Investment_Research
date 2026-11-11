@@ -1,4 +1,5 @@
 
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -9,6 +10,12 @@ from sklearn.preprocessing import StandardScaler
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+# Allow `python src/explainability/explain_revenue_decline.py` as well as imports.
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from src.ml.splits import date_boundary_split  # noqa: E402
 
 INPUT_FILE = (
     PROJECT_ROOT / "data" / "processed"
@@ -50,9 +57,8 @@ def main():
     if missing_features:
         raise ValueError(f"Missing model features: {missing_features}")
 
-    split_index = int(len(df) * 0.70)
-    train = df.iloc[:split_index].copy()
-    test = df.iloc[split_index:].copy()
+    # Date-boundary split: no reporting date is in both sets.
+    train, test, _ = date_boundary_split(df, train_share=0.70)
 
     X_train = train[FEATURES]
     y_train = train[TARGET].astype(int)

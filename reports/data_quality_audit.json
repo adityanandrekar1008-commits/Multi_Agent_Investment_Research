@@ -1,0 +1,768 @@
+{
+  "audit": {
+    "as_of": "2026-11-06",
+    "companies_audited": 9,
+    "records": 50,
+    "finding_counts": {
+      "error": 0,
+      "warning": 26,
+      "info": 16
+    },
+    "companies": {
+      "AAPL": {
+        "ticker": "AAPL",
+        "records": 5,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "AMZN": {
+        "ticker": "AMZN",
+        "records": 6,
+        "usable_quarters": 5,
+        "first_period": "2025-03-31",
+        "latest_period": "2026-03-31",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "GOOGL": {
+        "ticker": "GOOGL",
+        "records": 6,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 0.2,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "JPM": {
+        "ticker": "JPM",
+        "records": 6,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 0.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 0.0,
+          "Current Liabilities": 0.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "META": {
+        "ticker": "META",
+        "records": 6,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "MSFT": {
+        "ticker": "MSFT",
+        "records": 5,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "NVDA": {
+        "ticker": "NVDA",
+        "records": 5,
+        "usable_quarters": 5,
+        "first_period": "2025-07-31",
+        "latest_period": "2026-07-31",
+        "fiscal_quarter_end_months": [
+          1,
+          4,
+          7,
+          10
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "RELIANCE.NS": {
+        "ticker": "RELIANCE.NS",
+        "records": 5,
+        "usable_quarters": 5,
+        "first_period": "2025-03-31",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 0.4,
+          "Total Debt": 0.4,
+          "Stockholders Equity": 0.4,
+          "Current Assets": 0.4,
+          "Current Liabilities": 0.4,
+          "Operating Cash Flow": 0.0,
+          "Free Cash Flow": 0.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "INR",
+          "source": "inferred from ticker suffix"
+        }
+      },
+      "TSLA": {
+        "ticker": "TSLA",
+        "records": 6,
+        "usable_quarters": 5,
+        "first_period": "2025-06-30",
+        "latest_period": "2026-06-30",
+        "fiscal_quarter_end_months": [
+          3,
+          6,
+          9,
+          12
+        ],
+        "key_field_coverage": {
+          "Total Revenue": 1.0,
+          "Net Income": 1.0,
+          "Operating Income": 1.0,
+          "Total Assets": 1.0,
+          "Total Debt": 1.0,
+          "Stockholders Equity": 1.0,
+          "Current Assets": 1.0,
+          "Current Liabilities": 1.0,
+          "Operating Cash Flow": 1.0,
+          "Free Cash Flow": 1.0
+        },
+        "present_key_fields": [
+          "Total Revenue",
+          "Net Income",
+          "Operating Income",
+          "Total Assets",
+          "Total Debt",
+          "Stockholders Equity",
+          "Current Assets",
+          "Current Liabilities",
+          "Operating Cash Flow",
+          "Free Cash Flow"
+        ],
+        "reporting_currency": {
+          "currency": "USD",
+          "source": "inferred from ticker suffix"
+        }
+      }
+    },
+    "findings": [
+      {
+        "severity": "warning",
+        "check": "mixed_currencies",
+        "ticker": null,
+        "period": null,
+        "message": "Companies report in different currencies (AAPL: USD, AMZN: USD, GOOGL: USD, JPM: USD, META: USD, MSFT: USD, NVDA: USD, RELIANCE.NS: INR, TSLA: USD). Absolute amounts are not comparable across companies; ratios are.",
+        "value": null
+      },
+      {
+        "severity": "warning",
+        "check": "incomplete_latest_period",
+        "ticker": "AMZN",
+        "period": "2026-06-30",
+        "message": "The most recent period has no income-statement values (the provider had only partial data when it was collected). Re-collect the data.",
+        "value": null
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "AMZN",
+        "period": "2025-03-31",
+        "message": "Unusual items equal 16% of net income; margins for this period may not reflect normal operations.",
+        "value": 2782000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "AMZN",
+        "period": "2025-09-30",
+        "message": "Unusual items equal 48% of net income; margins for this period may not reflect normal operations.",
+        "value": 10195000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "AMZN",
+        "period": "2026-03-31",
+        "message": "Unusual items equal 52% of net income; margins for this period may not reflect normal operations.",
+        "value": 15680000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "stale_data",
+        "ticker": "AMZN",
+        "period": "2026-03-31",
+        "message": "Latest period 2026-03-31 is 220 days old; a newer quarter has probably been reported. Re-collect the data.",
+        "value": 220.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "GOOGL",
+        "period": null,
+        "message": "'Total Debt' missing in 4 of 5 usable periods (2025-06-30, 2025-09-30, 2025-12-31, 2026-03-31).",
+        "value": 4.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "GOOGL",
+        "period": "2025-09-30",
+        "message": "Unusual items equal 31% of net income; margins for this period may not reflect normal operations.",
+        "value": 10713000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "GOOGL",
+        "period": "2026-03-31",
+        "message": "Unusual items equal 59% of net income; margins for this period may not reflect normal operations.",
+        "value": 36950000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "GOOGL",
+        "period": "2026-06-30",
+        "message": "Unusual items equal 88% of net income; margins for this period may not reflect normal operations.",
+        "value": 98839000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "JPM",
+        "period": null,
+        "message": "'Operating Income' missing in 5 of 5 usable periods (2025-06-30, 2025-09-30, 2025-12-31, 2026-03-31, 2026-06-30).",
+        "value": 5.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "JPM",
+        "period": null,
+        "message": "'Current Assets' missing in 5 of 5 usable periods (2025-06-30, 2025-09-30, 2025-12-31, 2026-03-31, 2026-06-30).",
+        "value": 5.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "JPM",
+        "period": null,
+        "message": "'Current Liabilities' missing in 5 of 5 usable periods (2025-06-30, 2025-09-30, 2025-12-31, 2026-03-31, 2026-06-30).",
+        "value": 5.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "JPM",
+        "period": "2026-06-30",
+        "message": "Unusual items equal 21% of net income; margins for this period may not reflect normal operations.",
+        "value": 4393000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "NVDA",
+        "period": "2026-07-31",
+        "message": "Unusual items equal 13% of net income; margins for this period may not reflect normal operations.",
+        "value": 7771000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Total Assets' missing in 3 of 5 usable periods (2025-06-30, 2025-12-31, 2026-06-30).",
+        "value": 3.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Total Debt' missing in 3 of 5 usable periods (2025-06-30, 2025-12-31, 2026-06-30).",
+        "value": 3.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Stockholders Equity' missing in 3 of 5 usable periods (2025-06-30, 2025-12-31, 2026-06-30).",
+        "value": 3.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Current Assets' missing in 3 of 5 usable periods (2025-06-30, 2025-12-31, 2026-06-30).",
+        "value": 3.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Current Liabilities' missing in 3 of 5 usable periods (2025-06-30, 2025-12-31, 2026-06-30).",
+        "value": 3.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Operating Cash Flow' missing in 5 of 5 usable periods (2025-03-31, 2025-06-30, 2025-12-31, 2026-03-31, 2026-06-30).",
+        "value": 5.0
+      },
+      {
+        "severity": "warning",
+        "check": "missing_values",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "'Free Cash Flow' missing in 5 of 5 usable periods (2025-03-31, 2025-06-30, 2025-12-31, 2026-03-31, 2026-06-30).",
+        "value": 5.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "RELIANCE.NS",
+        "period": "2025-06-30",
+        "message": "Unusual items equal 33% of net income; margins for this period may not reflect normal operations.",
+        "value": 89240000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "quarterly_gap",
+        "ticker": "RELIANCE.NS",
+        "period": "2025-12-31",
+        "message": "About 1 quarter(s) missing between 2025-06-30 and 2025-12-31 (184 days).",
+        "value": 184.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "TSLA",
+        "period": "2025-09-30",
+        "message": "Unusual items equal 17% of net income; margins for this period may not reflect normal operations.",
+        "value": -238000000.0
+      },
+      {
+        "severity": "warning",
+        "check": "one_off_items",
+        "ticker": "TSLA",
+        "period": "2025-12-31",
+        "message": "Unusual items equal 19% of net income; margins for this period may not reflect normal operations.",
+        "value": -162000000.0
+      },
+      {
+        "severity": "info",
+        "check": "mixed_fiscal_calendars",
+        "ticker": null,
+        "period": null,
+        "message": "Some companies' quarters end in different months (NVDA). Rows with the same Date are not the same economic quarter, and date-based train/test splits mix calendars.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "AAPL",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "AMZN",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "empty_period",
+        "ticker": "GOOGL",
+        "period": "2025-03-31",
+        "message": "Provider returned this older date without income-statement values; it is dropped before modelling.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "GOOGL",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "empty_period",
+        "ticker": "JPM",
+        "period": "2025-03-31",
+        "message": "Provider returned this older date without income-statement values; it is dropped before modelling.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "financial_company_structure",
+        "ticker": "JPM",
+        "period": null,
+        "message": "No current assets or operating income reported; the statements look like a bank/financial company. Margin and liquidity ratios are not comparable with other companies.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "JPM",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "empty_period",
+        "ticker": "META",
+        "period": "2025-03-31",
+        "message": "Provider returned this older date without income-statement values; it is dropped before modelling.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "META",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "MSFT",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "fiscal_calendar",
+        "ticker": "NVDA",
+        "period": null,
+        "message": "Fiscal quarters end in months [1, 4, 7, 10]; periods are not aligned with calendar quarters used by other companies.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "NVDA",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "RELIANCE.NS",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      },
+      {
+        "severity": "info",
+        "check": "empty_period",
+        "ticker": "TSLA",
+        "period": "2025-03-31",
+        "message": "Provider returned this older date without income-statement values; it is dropped before modelling.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "TSLA",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      }
+    ]
+  },
+  "ratio_check": {
+    "features": {
+      "Net_Income_Margin": {
+        "status": "ok",
+        "formula": "Net Income / Total Revenue (missing if Total Revenue <= 0)",
+        "rows_checked": 31,
+        "rows_matching": 31,
+        "missing_values": 0
+      },
+      "Operating_Margin": {
+        "status": "ok",
+        "formula": "Operating Income / Total Revenue (missing if Total Revenue <= 0)",
+        "rows_checked": 31,
+        "rows_matching": 31,
+        "missing_values": 0
+      },
+      "Debt_To_Assets": {
+        "status": "ok",
+        "formula": "Total Debt / Total Assets (missing if Total Assets <= 0)",
+        "rows_checked": 31,
+        "rows_matching": 31,
+        "missing_values": 5
+      },
+      "Debt_To_Equity": {
+        "status": "ok",
+        "formula": "Total Debt / Stockholders Equity (missing if Stockholders Equity <= 0)",
+        "rows_checked": 31,
+        "rows_matching": 31,
+        "missing_values": 5
+      },
+      "Current_Ratio": {
+        "status": "ok",
+        "formula": "Current Assets / Current Liabilities (missing if Current Liabilities <= 0)",
+        "rows_checked": 31,
+        "rows_matching": 31,
+        "missing_values": 1
+      }
+    },
+    "mismatches": []
+  },
+  "feature_timing_problems": [],
+  "target_check": {
+    "definition": "1 if the next reported quarter's Total Revenue is lower than the current quarter's; only transitions 70-110 days apart are labelled.",
+    "horizon": "next reported quarter (about 3 months)",
+    "expected_labels": 31,
+    "stored_labels": 31,
+    "disagreements": []
+  }
+}

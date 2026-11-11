@@ -40,35 +40,29 @@ BASE_FEATURES = [
 ]
 
 
-def main():
-    if OUTPUT_FILE.exists():
-        print("Output already exists:", OUTPUT_FILE)
-        print("No file was overwritten.")
-        return
+def add_ratio_features(data):
+    """Return a copy of data with the model's ratio features added.
 
-    df = pd.read_csv(INPUT_FILE)
-    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-
-    available = [col for col in BASE_FEATURES if col in df.columns]
-
-    features = df[
-        ["Date", "Ticker", TARGET] + available
-    ].copy()
+    Every ratio uses only the same row's current-period values. A ratio is
+    left missing when its denominator is missing, zero, or negative.
+    """
+    features = data.copy()
 
     # Calculate ratios from the current reporting period only.
-    revenue = features["Total Revenue"].where(
-        features["Total Revenue"] > 0
-    )
-
-    if "Net Income" in features:
-        features["Net_Income_Margin"] = (
-            features["Net Income"] / revenue
+    if "Total Revenue" in features:
+        revenue = features["Total Revenue"].where(
+            features["Total Revenue"] > 0
         )
 
-    if "Operating Income" in features:
-        features["Operating_Margin"] = (
-            features["Operating Income"] / revenue
-        )
+        if "Net Income" in features:
+            features["Net_Income_Margin"] = (
+                features["Net Income"] / revenue
+            )
+
+        if "Operating Income" in features:
+            features["Operating_Margin"] = (
+                features["Operating Income"] / revenue
+            )
 
     if "Total Assets" in features:
         assets = features["Total Assets"].where(
@@ -100,6 +94,24 @@ def main():
         features["Current_Ratio"] = (
             features["Current Assets"] / liabilities
         )
+
+    return features
+
+
+def main():
+    if OUTPUT_FILE.exists():
+        print("Output already exists:", OUTPUT_FILE)
+        print("No file was overwritten.")
+        return
+
+    df = pd.read_csv(INPUT_FILE)
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+    available = [col for col in BASE_FEATURES if col in df.columns]
+
+    features = add_ratio_features(
+        df[["Date", "Ticker", TARGET] + available]
+    )
 
     features.to_csv(OUTPUT_FILE, index=False)
 

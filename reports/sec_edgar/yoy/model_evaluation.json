@@ -1,0 +1,1394 @@
+{
+  "dataset": {
+    "label": "SEC EDGAR point-in-time quarters, 429 rows, 7 US companies",
+    "features_file": "D:\\1\\PP\\Swa PRO\\Multi_Agent_Investment_Research\\data\\processed\\sec_edgar_revenue_decline_features.csv",
+    "rows": 406,
+    "companies": [
+      "AAPL",
+      "AMZN",
+      "GOOGL",
+      "META",
+      "MSFT",
+      "NVDA",
+      "TSLA"
+    ],
+    "date_range": [
+      "2010-03-27",
+      "2026-06-30"
+    ],
+    "distinct_dates": 184,
+    "class_counts": {
+      "no_decline": 363,
+      "decline": 43
+    },
+    "declines_by_company": {
+      "AAPL": [
+        10,
+        66
+      ],
+      "AMZN": [
+        0,
+        66
+      ],
+      "GOOGL": [
+        1,
+        36
+      ],
+      "META": [
+        3,
+        54
+      ],
+      "MSFT": [
+        7,
+        65
+      ],
+      "NVDA": [
+        13,
+        61
+      ],
+      "TSLA": [
+        9,
+        58
+      ]
+    },
+    "decline_rate_by_period_month": {
+      "1": {
+        "rows": 15,
+        "declines": 4
+      },
+      "3": {
+        "rows": 87,
+        "declines": 8
+      },
+      "4": {
+        "rows": 14,
+        "declines": 3
+      },
+      "5": {
+        "rows": 4,
+        "declines": 0
+      },
+      "6": {
+        "rows": 89,
+        "declines": 7
+      },
+      "7": {
+        "rows": 16,
+        "declines": 4
+      },
+      "8": {
+        "rows": 2,
+        "declines": 1
+      },
+      "9": {
+        "rows": 82,
+        "declines": 5
+      },
+      "10": {
+        "rows": 14,
+        "declines": 3
+      },
+      "12": {
+        "rows": 83,
+        "declines": 8
+      }
+    },
+    "yoy_target_feasibility": {
+      "labels": 385,
+      "declines": 38
+    },
+    "timing": "filing dates"
+  },
+  "target": {
+    "name": "Next_Period_Revenue_Decline_YoY",
+    "definition": "1 if the next reported quarter's revenue is lower than the same quarter one year earlier (year over year, so seasonality cancels out); 0 otherwise.",
+    "horizon": "next reported quarter (about 3 months)"
+  },
+  "models": {
+    "majority_baseline": "Always predicts the most common training label.",
+    "seasonal_baseline": "Majority training label for quarters ending in the same calendar month (seasonality only).",
+    "logreg_5_ratios": "Proof-of-concept model: 5 ratios, logistic regression.",
+    "logreg_margins": "Same model with the two margin ratios only."
+  },
+  "schemes": {
+    "walk_forward": {
+      "description": "Time-aware: train only on labels already observable at the test date; test on that date's rows.",
+      "evaluated_rows": 392,
+      "skipped_rows": 14,
+      "skip_reasons": {
+        "fewer than 10 training rows": 14
+      },
+      "models": {
+        "majority_baseline": {
+          "n": 392,
+          "actual_declines": 40,
+          "actual_no_decline": 352,
+          "predicted_declines": 0,
+          "accuracy": 0.8979591836734694,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 352,
+            "fp": 0,
+            "fn": 40,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 392,
+          "actual_declines": 40,
+          "actual_no_decline": 352,
+          "predicted_declines": 5,
+          "accuracy": 0.8903061224489796,
+          "balanced_accuracy": 0.5068181818181818,
+          "precision_decline": 0.2,
+          "recall_decline": 0.025,
+          "f1_decline": 0.044444444444444446,
+          "confusion_matrix": {
+            "tn": 348,
+            "fp": 4,
+            "fn": 39,
+            "tp": 1
+          },
+          "balanced_accuracy_95ci": [
+            0.49008428164434714,
+            0.5366488254534642
+          ],
+          "permutation_p_value": 0.07462686567164178
+        },
+        "logreg_5_ratios": {
+          "n": 392,
+          "actual_declines": 40,
+          "actual_no_decline": 352,
+          "predicted_declines": 110,
+          "accuracy": 0.6989795918367347,
+          "balanced_accuracy": 0.5664772727272727,
+          "precision_decline": 0.14545454545454545,
+          "recall_decline": 0.4,
+          "f1_decline": 0.21333333333333335,
+          "confusion_matrix": {
+            "tn": 258,
+            "fp": 94,
+            "fn": 24,
+            "tp": 16
+          },
+          "balanced_accuracy_95ci": [
+            0.4823500799110555,
+            0.6482392634127693
+          ],
+          "permutation_p_value": 0.04975124378109453
+        },
+        "logreg_margins": {
+          "n": 392,
+          "actual_declines": 40,
+          "actual_no_decline": 352,
+          "predicted_declines": 109,
+          "accuracy": 0.701530612244898,
+          "balanced_accuracy": 0.5678977272727272,
+          "precision_decline": 0.14678899082568808,
+          "recall_decline": 0.4,
+          "f1_decline": 0.21476510067114093,
+          "confusion_matrix": {
+            "tn": 259,
+            "fp": 93,
+            "fn": 24,
+            "tp": 16
+          },
+          "balanced_accuracy_95ci": [
+            0.4843959794415072,
+            0.6479836530872443
+          ],
+          "permutation_p_value": 0.029850746268656716
+        }
+      },
+      "per_date": {
+        "2011-03-31": {
+          "test_rows": 4,
+          "actual_declines": 0,
+          "train_rows": [
+            11,
+            11
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2011-06-30": {
+          "test_rows": 4,
+          "actual_declines": 0,
+          "train_rows": [
+            15,
+            15
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2011-09-30": {
+          "test_rows": 4,
+          "actual_declines": 0,
+          "train_rows": [
+            19,
+            19
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2011-12-31": {
+          "test_rows": 4,
+          "actual_declines": 1,
+          "train_rows": [
+            23,
+            23
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 3
+          }
+        },
+        "2012-03-31": {
+          "test_rows": 5,
+          "actual_declines": 1,
+          "train_rows": [
+            27,
+            27
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 3
+          }
+        },
+        "2012-06-30": {
+          "test_rows": 5,
+          "actual_declines": 2,
+          "train_rows": [
+            31,
+            31
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 3
+          }
+        },
+        "2012-09-30": {
+          "test_rows": 5,
+          "actual_declines": 0,
+          "train_rows": [
+            36,
+            36
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2012-12-31": {
+          "test_rows": 5,
+          "actual_declines": 0,
+          "train_rows": [
+            42,
+            42
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 4
+          }
+        },
+        "2013-03-31": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            46,
+            46
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2013-06-30": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            51,
+            51
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2013-09-30": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            57,
+            57
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 6
+          }
+        },
+        "2013-12-31": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            63,
+            63
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2014-03-31": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            70,
+            70
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 5
+          }
+        },
+        "2014-06-30": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            75,
+            75
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 6
+          }
+        },
+        "2014-09-30": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            81,
+            81
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 5
+          }
+        },
+        "2014-12-31": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            87,
+            87
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 5
+          }
+        },
+        "2015-03-31": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            94,
+            94
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 4
+          }
+        },
+        "2015-06-30": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            99,
+            99
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2015-09-30": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            105,
+            105
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 4
+          }
+        },
+        "2015-12-31": {
+          "test_rows": 6,
+          "actual_declines": 2,
+          "train_rows": [
+            111,
+            111
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2016-03-31": {
+          "test_rows": 6,
+          "actual_declines": 2,
+          "train_rows": [
+            117,
+            117
+          ],
+          "correct": {
+            "majority_baseline": 4,
+            "seasonal_baseline": 4,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 3
+          }
+        },
+        "2016-06-30": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            123,
+            123
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2016-09-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            129,
+            129
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 6
+          }
+        },
+        "2016-12-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            136,
+            136
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 5
+          }
+        },
+        "2017-03-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            143,
+            143
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2017-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            150,
+            150
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2017-09-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            157,
+            157
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 2,
+            "logreg_margins": 5
+          }
+        },
+        "2017-12-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            164,
+            164
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2018-03-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            171,
+            171
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2018-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            178,
+            178
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2018-09-30": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            185,
+            185
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2018-12-31": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            193,
+            193
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2019-03-31": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            199,
+            199
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 4
+          }
+        },
+        "2019-06-30": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            206,
+            206
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 5
+          }
+        },
+        "2019-09-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            213,
+            213
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2019-12-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            221,
+            221
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 4
+          }
+        },
+        "2020-03-31": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            228,
+            228
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 5
+          }
+        },
+        "2020-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            234,
+            234
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2020-09-30": {
+          "test_rows": 5,
+          "actual_declines": 0,
+          "train_rows": [
+            241,
+            241
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 4
+          }
+        },
+        "2020-12-31": {
+          "test_rows": 5,
+          "actual_declines": 0,
+          "train_rows": [
+            248,
+            248
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 3
+          }
+        },
+        "2021-03-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            253,
+            253
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2021-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            258,
+            258
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2021-09-30": {
+          "test_rows": 5,
+          "actual_declines": 0,
+          "train_rows": [
+            265,
+            265
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2021-12-31": {
+          "test_rows": 6,
+          "actual_declines": 0,
+          "train_rows": [
+            272,
+            272
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2022-03-31": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            277,
+            277
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2022-06-30": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            283,
+            283
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 4
+          }
+        },
+        "2022-09-30": {
+          "test_rows": 6,
+          "actual_declines": 3,
+          "train_rows": [
+            290,
+            290
+          ],
+          "correct": {
+            "majority_baseline": 3,
+            "seasonal_baseline": 3,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 3
+          }
+        },
+        "2022-12-31": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            297,
+            297
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2023-03-31": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            303,
+            303
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 4
+          }
+        },
+        "2023-06-30": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            310,
+            310
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 4
+          }
+        },
+        "2023-09-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            317,
+            317
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2023-12-31": {
+          "test_rows": 7,
+          "actual_declines": 2,
+          "train_rows": [
+            324,
+            324
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2024-03-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            331,
+            331
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2024-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            339,
+            339
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2024-09-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            345,
+            345
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 7,
+            "logreg_margins": 5
+          }
+        },
+        "2024-12-31": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            352,
+            352
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 6
+          }
+        },
+        "2025-03-31": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            359,
+            359
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2025-06-30": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            367,
+            367
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 6,
+            "logreg_margins": 5
+          }
+        },
+        "2025-09-30": {
+          "test_rows": 7,
+          "actual_declines": 1,
+          "train_rows": [
+            373,
+            373
+          ],
+          "correct": {
+            "majority_baseline": 6,
+            "seasonal_baseline": 6,
+            "logreg_5_ratios": 5,
+            "logreg_margins": 5
+          }
+        },
+        "2025-12-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            380,
+            380
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 7,
+            "logreg_margins": 5
+          }
+        },
+        "2026-03-31": {
+          "test_rows": 7,
+          "actual_declines": 0,
+          "train_rows": [
+            387,
+            387
+          ],
+          "correct": {
+            "majority_baseline": 7,
+            "seasonal_baseline": 7,
+            "logreg_5_ratios": 4,
+            "logreg_margins": 3
+          }
+        },
+        "2026-06-30": {
+          "test_rows": 6,
+          "actual_declines": 1,
+          "train_rows": [
+            395,
+            395
+          ],
+          "correct": {
+            "majority_baseline": 5,
+            "seasonal_baseline": 5,
+            "logreg_5_ratios": 3,
+            "logreg_margins": 4
+          }
+        }
+      }
+    },
+    "unseen_company": {
+      "description": "Company-aware: leave one company out, train on the others at any date (can learn from the future of other companies).",
+      "evaluated_rows": 406,
+      "skipped_rows": 0,
+      "skip_reasons": {},
+      "models": {
+        "majority_baseline": {
+          "n": 406,
+          "actual_declines": 43,
+          "actual_no_decline": 363,
+          "predicted_declines": 0,
+          "accuracy": 0.8940886699507389,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 363,
+            "fp": 0,
+            "fn": 43,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 406,
+          "actual_declines": 43,
+          "actual_no_decline": 363,
+          "predicted_declines": 0,
+          "accuracy": 0.8940886699507389,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 363,
+            "fp": 0,
+            "fn": 43,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": 0.9850746268656716
+        },
+        "logreg_5_ratios": {
+          "n": 406,
+          "actual_declines": 43,
+          "actual_no_decline": 363,
+          "predicted_declines": 157,
+          "accuracy": 0.5665024630541872,
+          "balanced_accuracy": 0.4398103658145941,
+          "precision_decline": 0.07643312101910828,
+          "recall_decline": 0.27906976744186046,
+          "f1_decline": 0.12,
+          "confusion_matrix": {
+            "tn": 218,
+            "fp": 145,
+            "fn": 31,
+            "tp": 12
+          },
+          "balanced_accuracy_95ci": [
+            0.3663078497311471,
+            0.5137804243318947
+          ],
+          "permutation_p_value": 0.8955223880597015
+        },
+        "logreg_margins": {
+          "n": 406,
+          "actual_declines": 43,
+          "actual_no_decline": 363,
+          "predicted_declines": 157,
+          "accuracy": 0.6059113300492611,
+          "balanced_accuracy": 0.5438529053751041,
+          "precision_decline": 0.12738853503184713,
+          "recall_decline": 0.46511627906976744,
+          "f1_decline": 0.2,
+          "confusion_matrix": {
+            "tn": 226,
+            "fp": 137,
+            "fn": 23,
+            "tp": 20
+          },
+          "balanced_accuracy_95ci": [
+            0.465683025103981,
+            0.621045611741846
+          ],
+          "permutation_p_value": 0.17412935323383086
+        }
+      },
+      "per_company": {
+        "AAPL": {
+          "test_rows": 66,
+          "actual_declines": 10,
+          "train_rows": [
+            340,
+            340
+          ],
+          "correct": {
+            "majority_baseline": 56,
+            "seasonal_baseline": 56,
+            "logreg_5_ratios": 56,
+            "logreg_margins": 56
+          }
+        },
+        "AMZN": {
+          "test_rows": 66,
+          "actual_declines": 0,
+          "train_rows": [
+            340,
+            340
+          ],
+          "correct": {
+            "majority_baseline": 66,
+            "seasonal_baseline": 66,
+            "logreg_5_ratios": 1,
+            "logreg_margins": 0
+          }
+        },
+        "GOOGL": {
+          "test_rows": 36,
+          "actual_declines": 1,
+          "train_rows": [
+            370,
+            370
+          ],
+          "correct": {
+            "majority_baseline": 35,
+            "seasonal_baseline": 35,
+            "logreg_5_ratios": 33,
+            "logreg_margins": 21
+          }
+        },
+        "META": {
+          "test_rows": 54,
+          "actual_declines": 3,
+          "train_rows": [
+            352,
+            352
+          ],
+          "correct": {
+            "majority_baseline": 51,
+            "seasonal_baseline": 51,
+            "logreg_5_ratios": 23,
+            "logreg_margins": 51
+          }
+        },
+        "MSFT": {
+          "test_rows": 65,
+          "actual_declines": 7,
+          "train_rows": [
+            341,
+            341
+          ],
+          "correct": {
+            "majority_baseline": 58,
+            "seasonal_baseline": 58,
+            "logreg_5_ratios": 47,
+            "logreg_margins": 58
+          }
+        },
+        "NVDA": {
+          "test_rows": 61,
+          "actual_declines": 13,
+          "train_rows": [
+            345,
+            345
+          ],
+          "correct": {
+            "majority_baseline": 48,
+            "seasonal_baseline": 48,
+            "logreg_5_ratios": 48,
+            "logreg_margins": 51
+          }
+        },
+        "TSLA": {
+          "test_rows": 58,
+          "actual_declines": 9,
+          "train_rows": [
+            348,
+            348
+          ],
+          "correct": {
+            "majority_baseline": 49,
+            "seasonal_baseline": 49,
+            "logreg_5_ratios": 22,
+            "logreg_margins": 9
+          }
+        }
+      }
+    },
+    "walk_forward_unseen_company": {
+      "description": "Time- and company-aware (strictest): train only on other companies' labels observable at the test date.",
+      "evaluated_rows": 385,
+      "skipped_rows": 21,
+      "skip_reasons": {
+        "fewer than 10 training rows": 16,
+        "training rows contain only one class": 5
+      },
+      "models": {
+        "majority_baseline": {
+          "n": 385,
+          "actual_declines": 39,
+          "actual_no_decline": 346,
+          "predicted_declines": 0,
+          "accuracy": 0.8987012987012987,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 346,
+            "fp": 0,
+            "fn": 39,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": null
+        },
+        "seasonal_baseline": {
+          "n": 385,
+          "actual_declines": 39,
+          "actual_no_decline": 346,
+          "predicted_declines": 0,
+          "accuracy": 0.8987012987012987,
+          "balanced_accuracy": 0.5,
+          "precision_decline": 0.0,
+          "recall_decline": 0.0,
+          "f1_decline": 0.0,
+          "confusion_matrix": {
+            "tn": 346,
+            "fp": 0,
+            "fn": 39,
+            "tp": 0
+          },
+          "balanced_accuracy_95ci": [
+            0.5,
+            0.5
+          ],
+          "permutation_p_value": 0.845771144278607
+        },
+        "logreg_5_ratios": {
+          "n": 385,
+          "actual_declines": 39,
+          "actual_no_decline": 346,
+          "predicted_declines": 139,
+          "accuracy": 0.5948051948051948,
+          "balanced_accuracy": 0.45605454275974505,
+          "precision_decline": 0.07913669064748201,
+          "recall_decline": 0.28205128205128205,
+          "f1_decline": 0.12359550561797752,
+          "confusion_matrix": {
+            "tn": 218,
+            "fp": 128,
+            "fn": 28,
+            "tp": 11
+          },
+          "balanced_accuracy_95ci": [
+            0.3859921681820572,
+            0.534537753367232
+          ],
+          "permutation_p_value": 0.8905472636815921
+        },
+        "logreg_margins": {
+          "n": 385,
+          "actual_declines": 39,
+          "actual_no_decline": 346,
+          "predicted_declines": 120,
+          "accuracy": 0.638961038961039,
+          "balanced_accuracy": 0.46924559063287385,
+          "precision_decline": 0.08333333333333333,
+          "recall_decline": 0.2564102564102564,
+          "f1_decline": 0.12578616352201258,
+          "confusion_matrix": {
+            "tn": 236,
+            "fp": 110,
+            "fn": 29,
+            "tp": 10
+          },
+          "balanced_accuracy_95ci": [
+            0.39672958246248136,
+            0.5430761177499507
+          ],
+          "permutation_p_value": 0.8258706467661692
+        }
+      }
+    }
+  },
+  "settings": {
+    "min_train_rows": 10,
+    "n_permutations": 200,
+    "n_bootstrap": 2000,
+    "seed": 42
+  },
+  "notes": [],
+  "fit_warnings": {},
+  "conclusions": [
+    "walk_forward: the 5-ratio model has balanced accuracy 0.57, 95% interval 0.48-0.65 (permutation p = 0.0498), only borderline better than chance; it is better than the seasonal rule (0.51, p = 0.075) on 392 test rows with 40 declines.",
+    "unseen_company: the 5-ratio model has balanced accuracy 0.44, 95% interval 0.37-0.51 (permutation p = 0.896), not distinguishable from chance; it is worse than the seasonal rule (0.50, p = 0.985) on 406 test rows with 43 declines.",
+    "walk_forward_unseen_company: the 5-ratio model has balanced accuracy 0.46, 95% interval 0.39-0.53 (permutation p = 0.891), not distinguishable from chance; it is worse than the seasonal rule (0.50, p = 0.846) on 385 test rows with 39 declines.",
+    "Other models below p = 0.05: logreg_margins in walk_forward (balanced accuracy 0.57, p = 0.030).",
+    "Multiple tests: 9 model/scheme combinations were tested; at the 5% level about 0.5 would fall below 0.05 by chance alone. 2 did, 0 of them with p <= 0.01, which chance rarely produces. A single result between 0.01 and 0.05 is weak evidence.",
+    "Overall: the model beats chance in at least one scheme but not consistently, or not by more than the seasonal rule under the strictest validation. Do not rely on it; treat its output as an experimental research signal only."
+  ]
+}

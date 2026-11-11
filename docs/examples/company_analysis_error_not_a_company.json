@@ -1,0 +1,59 @@
+{
+  "schema_version": "company_analysis/1.0",
+  "status": "error",
+  "generated_at": "2026-11-11T04:03:25+00:00",
+  "request": {
+    "input": "SPY",
+    "prefer_indian": false,
+    "as_of": null
+  },
+  "company": null,
+  "source": null,
+  "coverage": null,
+  "metrics": null,
+  "risk_flags": null,
+  "ml_signal": null,
+  "data_quality": null,
+  "warnings": [],
+  "error": {
+    "code": "not_a_company",
+    "message": "'SPY' matched only non-company securities (ETF). Financial statements are available for company shares only.",
+    "candidates": [
+      {
+        "symbol": "SPY",
+        "name": "State Street SPDR S&P 500 ETF Trust",
+        "exchange": "NYSEArca",
+        "type": "ETF"
+      },
+      {
+        "symbol": "SPYM",
+        "name": "State Street SPDR Portfolio S&P 500 ETF",
+        "exchange": "NYSEArca",
+        "type": "ETF"
+      },
+      {
+        "symbol": "SPYI",
+        "name": "Neos S&P 500(R) High Income ETF",
+        "exchange": "BATS Trading",
+        "type": "ETF"
+      },
+      {
+        "symbol": "SPYD",
+        "name": "State Street SPDR Portfolio S&P 500 High Dividend ETF",
+        "exchange": "NYSEArca",
+        "type": "ETF"
+      },
+      {
+        "symbol": "SPYG",
+        "name": "State Street SPDR Portfolio S&P 500 Growth ETF",
+        "exchange": "NYSEArca",
+        "type": "ETF"
+      }
+    ]
+  },
+  "disclaimer": "Informational research output only; not investment advice. Figures come from a third-party data provider and may be incomplete, delayed, or restated. Risk flags are general screening rules, and the ML signal is experimental and has not been shown to predict better than chance.",
+  "files": {
+    "summary": "outputs/SPY_20261111_093325/summary.json",
+    "report": "outputs/SPY_20261111_093325/report.md"
+  }
+}

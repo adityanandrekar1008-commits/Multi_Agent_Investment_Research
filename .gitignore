@@ -17,3 +17,10 @@ env/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Generated pipeline outputs (recreate with main.py)
+outputs/
+runs/
+
+# SEC EDGAR download cache (large; recreate with main.py edgar)
+data/raw/sec_edgar/cache/

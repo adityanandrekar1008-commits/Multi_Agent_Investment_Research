@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company Analysis Test</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6677;
+    --border: #dde1e8; --accent: #2457c5; --accent-text: #ffffff;
+    --warn-bg: #fff6e0; --warn-text: #7a5300; --err-bg: #fdecec; --err-text: #9b1c1c;
+    --info-bg: #eef3fc; --info-text: #23417a; --ok: #1d7a46;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151b; --panel: #1b1f27; --text: #e6e9ef; --muted: #9aa3b2;
+      --border: #2d3340; --accent: #6d9bff; --accent-text: #0d1117;
+      --warn-bg: #3a2e12; --warn-text: #f3cf7a; --err-bg: #3d1a1a; --err-text: #f4a3a3;
+      --info-bg: #1b2840; --info-text: #a9c3f5; --ok: #6fd39b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  h2 { font-size: 16px; margin: 0 0 12px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--border);
+           border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  form { display: flex; gap: 8px; flex-wrap: wrap; }
+  input[type=text] { flex: 1 1 260px; padding: 10px 12px; font: inherit; color: var(--text);
+                     background: var(--bg); border: 1px solid var(--border); border-radius: 8px; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; }
+  .primary { padding: 10px 18px; border: 0; background: var(--accent); color: var(--accent-text);
+             font-weight: 600; }
+  .primary:disabled { opacity: .6; cursor: wait; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .chip { padding: 4px 10px; background: transparent; color: var(--muted);
+          border: 1px solid var(--border); font-size: 13px; }
+  .chip:hover { color: var(--text); border-color: var(--muted); }
+  #status { color: var(--muted); min-height: 22px; margin: 8px 0 16px; }
+  .company { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .company .name { font-size: 20px; font-weight: 650; }
+  .meta { color: var(--muted); font-size: 14px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  .card .value { font-size: 20px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--border);
+           white-space: nowrap; font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child, .left { text-align: left; }
+  th { color: var(--muted); font-weight: 600; font-size: 12px; }
+  td.msg { white-space: normal; min-width: 280px; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .sev-error { background: var(--err-bg); color: var(--err-text); }
+  .sev-warning { background: var(--warn-bg); color: var(--warn-text); }
+  .sev-info { background: var(--info-bg); color: var(--info-text); }
+  .sev-ok { background: transparent; color: var(--ok); border: 1px solid var(--border); }
+  .experimental { border-style: dashed; }
+  .badge { display: inline-block; margin: 0 0 10px; padding: 2px 10px; border-radius: 999px;
+           background: var(--warn-bg); color: var(--warn-text); font-size: 12px; font-weight: 700; }
+  .verdict { font-weight: 600; }
+  ul.warnings { margin: 0; padding-left: 18px; }
+  ul.warnings li { margin: 4px 0; }
+  .error { background: var(--err-bg); color: var(--err-text); border-color: transparent; }
+  .error .code { font-weight: 700; }
+  .candidates button { margin: 6px 6px 0 0; }
+  details summary { cursor: pointer; color: var(--muted); }
+  pre { overflow: auto; max-height: 420px; font-size: 12px; background: var(--bg);
+        padding: 12px; border-radius: 8px; }
+  footer { color: var(--muted); font-size: 13px; margin-top: 24px; }
+  .hidden { display: none; }
+  .ok { color: var(--ok); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Company analysis: local test</h1>
+  <p class="sub">Runs the same pipeline as <code>python main.py analyze</code>.
+     Developer test page; informational only, not investment advice.</p>
+
+  <section class="panel">
+    <form id="form">
+      <input id="company" type="text" placeholder="Ticker or company name, e.g. RELIANCE.NS or Reliance Industries"
+             autocomplete="off" aria-label="Ticker or company name">
+      <button class="primary" id="go" type="submit">Analyze</button>
+    </form>
+    <div class="chips" id="examples"></div>
+  </section>
+
+  <div id="status" role="status"></div>
+  <div id="result"></div>
+
+  <footer id="footer"></footer>
+</main>
+
+<script>
+const EXAMPLES = ["RELIANCE.NS", "Reliance Industries", "TCS", "META", "AAPL", "SPY", "ZZZQXNOTREAL"];
+const RATIOS = [
+  ["net_income_margin", "Net income margin", "pct"],
+  ["operating_margin", "Operating margin", "pct"],
+  ["debt_to_assets", "Debt / assets", "pct"],
+  ["debt_to_equity", "Debt / equity", "x"],
+  ["current_ratio", "Current ratio", "x"],
+];
+
+const $ = (id) => document.getElementById(id);
+function el(tag, attrs = {}, ...children) {
+  const node = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") node.className = v;
+    else if (k === "onclick") node.addEventListener("click", v);
+    else node.setAttribute(k, v);
+  }
+  for (const child of children.flat()) {
+    if (child === null || child === undefined) continue;
+    node.append(child instanceof Node ? child : document.createTextNode(String(child)));
+  }
+  return node;
+}
+
+function fmtRatio(value, kind) {
+  if (value === null || value === undefined) return "n/a";
+  return kind === "pct" ? (value * 100).toFixed(1) + "%" : value.toFixed(2) + "x";
+}
+function fmtChange(value) {
+  if (value === null || value === undefined) return "";
+  return (value > 0 ? "+" : "") + (value * 100).toFixed(1) + "%";
+}
+function fmtAmount(value, currency) {
+  if (value === null || value === undefined) return "";
+  try {
+    return new Intl.NumberFormat("en", {
+      notation: "compact", maximumFractionDigits: 1,
+      ...(currency ? { style: "currency", currency } : {}),
+    }).format(value);
+  } catch (e) {
+    return new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(value);
+  }
+}
+
+function renderError(summary) {
+  const err = summary.error;
+  const box = el("section", { class: "panel error" },
+    el("div", {}, el("span", { class: "code" }, err.code), " — ", err.message));
+  if (err.candidates && err.candidates.length) {
+    const list = el("div", { class: "candidates" }, el("div", {}, "Matches found:"));
+    for (const c of err.candidates) {
+      list.append(el("button", { class: "chip", type: "button",
+        onclick: () => run(c.symbol) },
+        `${c.symbol}${c.name ? " · " + c.name : ""}${c.type ? " (" + c.type + ")" : ""}`));
+    }
+    box.append(list);
+  }
+  return box;
+}
+
+function renderFlags(flags) {
+  const sum = flags.summary, sev = sum.triggered_by_severity;
+  const order = { triggered: 0, not_triggered: 1, not_evaluable: 2 };
+  const label = { triggered: "triggered", not_triggered: "ok", not_evaluable: "not available" };
+  const pill = { triggered: "sev-warning", not_triggered: "sev-ok", not_evaluable: "sev-info" };
+  return el("section", { class: "panel" },
+    el("h2", {}, `Risk flags (rule-based) — ${sum.triggered} triggered`),
+    el("p", { class: "meta" },
+      `High ${sev.high}, medium ${sev.medium}, low ${sev.low}; ${sum.not_evaluable} not evaluable. ` +
+      "General screening rules with fixed thresholds, not a rating."),
+    el("div", { class: "table-wrap" },
+      el("table", {},
+        el("thead", {}, el("tr", {}, ["Flag", "Status", "Severity", "Period", "Explanation"]
+          .map((h) => el("th", { class: "left" }, h)))),
+        el("tbody", {}, [...flags.flags].sort((a, b) => order[a.status] - order[b.status])
+          .map((f) => el("tr", {},
+            el("td", { class: "left" }, f.title),
+            el("td", { class: "left" }, el("span", { class: "pill " + pill[f.status] }, label[f.status])),
+            el("td", { class: "left" }, f.severity),
+            el("td", { class: "left" }, f.period_end || ""),
+            el("td", { class: "left msg" }, f.explanation, el("div", { class: "meta" }, "Rule: " + f.rule))))))));
+}
+
+function renderSignal(sig) {
+  const box = el("section", { class: "panel experimental" },
+    el("h2", {}, "Experimental ML signal"),
+    el("p", { class: "badge" }, "EXPERIMENTAL · research only · not a prediction or risk score"));
+  if (sig.status !== "available") {
+    box.append(el("p", {}, "Not available: " + sig.reason));
+  } else {
+    const imputed = Object.entries(sig.inputs).filter(([, v]) => v.imputed).map(([k]) => k);
+    box.append(
+      el("p", {}, `Model ${sig.model}: ${sig.target} (${sig.horizon}). ` +
+        `Score for ${sig.period_end}: ${sig.score.toFixed(2)} (${sig.predicted_class.replace("_", " ")}).`),
+      el("p", { class: "meta" }, sig.score_meaning),
+      el("p", { class: "meta" }, "Main contributions: " +
+        sig.top_contributions.map((t) => `${t.feature} (${t.direction})`).join("; ")));
+    if (imputed.length) {
+      box.append(el("p", { class: "meta" }, "Filled with training median: " + imputed.join(", ")));
+    }
+  }
+  if (sig.evaluation && sig.evaluation.verdict) {
+    box.append(el("p", { class: "verdict" }, "Evaluation: " + sig.evaluation.verdict));
+  }
+  box.append(el("details", {}, el("summary", {}, "Limitations"),
+    el("ul", { class: "warnings" }, sig.limitations.map((l) => el("li", {}, l)))));
+  return box;
+}
+
+function renderSummary(s) {
+  const c = s.company, cov = s.coverage, m = s.metrics, currency = m.currency;
+  const latest = m.latest;
+  const out = [];
+
+  out.push(el("section", { class: "panel" },
+    el("div", { class: "company" },
+      el("div", {},
+        el("div", { class: "name" }, c.name || c.symbol),
+        el("div", { class: "meta" },
+          [c.symbol, c.exchange, c.sector, c.industry, c.country].filter(Boolean).join(" · "))),
+      el("div", { class: "meta left" },
+        el("div", {}, `Reporting currency: ${currency || "unknown"}`),
+        el("div", {}, `Quarters: ${cov.usable_quarters} (${cov.first_period} to ${cov.latest_period})`),
+        el("div", {}, "Statements: " + Object.entries(s.source.statements)
+          .map(([k, v]) => `${k.replace("_", " ")} ${v.available ? "✓" : "✗"}`).join(", ")),
+        el("div", {}, `Retrieved ${s.source.retrieved_at} from ${s.source.provider}`)))));
+
+  if (latest) {
+    out.push(el("section", { class: "panel" },
+      el("h2", {}, `Latest quarter (${m.latest_period})`),
+      el("div", { class: "cards" },
+        RATIOS.map(([key, label, kind]) => el("div", { class: "card" },
+          el("div", { class: "label" }, label),
+          el("div", { class: "value" }, fmtRatio(latest.ratios[key], kind)))))));
+  }
+
+  out.push(renderFlags(s.risk_flags));
+
+  const head = ["Quarter end", "Revenue", "QoQ", "YoY", "Net income", "Op. income",
+                ...RATIOS.map((r) => r[1])];
+  const rows = [...m.periods].reverse().map((p) => el("tr", {},
+    el("td", {}, p.period_end),
+    el("td", {}, fmtAmount(p.values.revenue, currency)),
+    el("td", {}, fmtChange(p.changes.revenue_change_qoq)),
+    el("td", {}, fmtChange(p.changes.revenue_change_yoy)),
+    el("td", {}, fmtAmount(p.values.net_income, currency)),
+    el("td", {}, fmtAmount(p.values.operating_income, currency)),
+    RATIOS.map(([key, , kind]) => el("td", {}, fmtRatio(p.ratios[key], kind)))));
+  out.push(el("section", { class: "panel" },
+    el("h2", {}, "Quarterly figures"),
+    el("div", { class: "table-wrap" },
+      el("table", {}, el("thead", {}, el("tr", {}, head.map((h) => el("th", {}, h)))),
+        el("tbody", {}, rows)))));
+
+  if (s.warnings.length) {
+    out.push(el("section", { class: "panel" },
+      el("h2", {}, "Warnings"),
+      el("ul", { class: "warnings" }, s.warnings.map((w) =>
+        el("li", {}, el("code", {}, w.code), " ", w.message)))));
+  }
+
+  out.push(renderSignal(s.ml_signal));
+
+  const dq = s.data_quality;
+  const counts = dq.finding_counts;
+  const checks = Object.entries(dq.ratio_formula_check)
+    .map(([k, v]) => `${k}: ${v}`).join(", ");
+  out.push(el("section", { class: "panel" },
+    el("h2", {}, `Data quality — ${counts.error} errors, ${counts.warning} warnings, ${counts.info} notes`),
+    el("p", { class: "meta" }, "Ratio formula check: ", el("span", { class: "ok" }, checks)),
+    dq.findings.length ? el("div", { class: "table-wrap" },
+      el("table", {},
+        el("thead", {}, el("tr", {}, ["Severity", "Check", "Period", "Detail"]
+          .map((h) => el("th", { class: "left" }, h)))),
+        el("tbody", {}, dq.findings.map((f) => el("tr", {},
+          el("td", { class: "left" }, el("span", { class: "pill sev-" + f.severity }, f.severity)),
+          el("td", { class: "left" }, f.check),
+          el("td", { class: "left" }, f.period || ""),
+          el("td", { class: "left msg" }, f.message))))))
+      : el("p", {}, "No findings.")));
+
+  return out;
+}
+
+async function run(company) {
+  company = (company ?? $("company").value).trim();
+  $("company").value = company;
+  $("go").disabled = true;
+  $("status").textContent = `Analyzing "${company}"… (downloads statements; takes a few seconds)`;
+  $("result").replaceChildren();
+  const started = performance.now();
+  try {
+    const response = await fetch("/api/analyze?company=" + encodeURIComponent(company));
+    const summary = await response.json();
+    const seconds = ((performance.now() - started) / 1000).toFixed(1);
+    $("status").textContent = `HTTP ${response.status} · ${summary.status} · ${seconds}s`;
+    const parts = summary.status === "ok" ? renderSummary(summary) : [renderError(summary)];
+    parts.push(el("section", { class: "panel" },
+      el("details", {}, el("summary", {}, "Raw JSON (summary.json)"),
+        el("pre", {}, JSON.stringify(summary, null, 2)))));
+    $("result").replaceChildren(...parts);
+    $("footer").textContent = summary.disclaimer || "";
+  } catch (e) {
+    $("status").textContent = "Request failed: " + e;
+  } finally {
+    $("go").disabled = false;
+  }
+}
+
+$("form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
+for (const example of EXAMPLES) {
+  $("examples").append(el("button", { class: "chip", type: "button", onclick: () => run(example) }, example));
+}
+</script>
+</body>
+</html>

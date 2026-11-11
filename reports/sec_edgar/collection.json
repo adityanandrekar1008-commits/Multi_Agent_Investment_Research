@@ -1,0 +1,107 @@
+{
+  "generated_at": "2026-11-07T12:01:56",
+  "companies": {
+    "AAPL": {
+      "note": "CIK 320193: 74 quarters, 2008-06-28 to 2026-09-26",
+      "quarters": 74,
+      "point_in_time": 70,
+      "first": "2008-06-28",
+      "last": "2026-09-26"
+    },
+    "AMZN": {
+      "note": "CIK 1018724: 74 quarters, 2008-06-30 to 2026-09-30",
+      "quarters": 74,
+      "point_in_time": 70,
+      "first": "2008-06-30",
+      "last": "2026-09-30"
+    },
+    "GOOGL": {
+      "note": "CIK 1652044: 49 quarters, 2014-09-30 to 2026-09-30",
+      "quarters": 49,
+      "point_in_time": 43,
+      "first": "2014-09-30",
+      "last": "2026-09-30"
+    },
+    "META": {
+      "note": "CIK 1326801: 62 quarters, 2011-06-30 to 2026-09-30",
+      "quarters": 62,
+      "point_in_time": 58,
+      "first": "2011-06-30",
+      "last": "2026-09-30"
+    },
+    "MSFT": {
+      "note": "CIK 789019: 77 quarters, 2007-09-30 to 2026-09-30",
+      "quarters": 77,
+      "point_in_time": 69,
+      "first": "2007-09-30",
+      "last": "2026-09-30"
+    },
+    "NVDA": {
+      "note": "CIK 1045810: 74 quarters, 2008-07-27 to 2026-07-26",
+      "quarters": 74,
+      "point_in_time": 68,
+      "first": "2008-07-27",
+      "last": "2026-07-26"
+    },
+    "TSLA": {
+      "note": "CIK 1318605: 67 quarters, 2010-03-31 to 2026-09-30",
+      "quarters": 67,
+      "point_in_time": 62,
+      "first": "2010-03-31",
+      "last": "2026-09-30"
+    }
+  },
+  "cross_check": {
+    "tolerance": 0.005,
+    "fields": {
+      "Total Revenue": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Net Income": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Operating Income": {
+        "compared": 35,
+        "matching": 33
+      },
+      "Total Assets": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Stockholders Equity": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Current Assets": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Current Liabilities": {
+        "compared": 35,
+        "matching": 35
+      },
+      "Total Debt": {
+        "compared": 31,
+        "matching": 5
+      }
+    },
+    "mismatches": [
+      {
+        "ticker": "TSLA",
+        "period": "2025-09-30",
+        "field": "Operating Income",
+        "yahoo": 1862000000.0,
+        "edgar": 1624000000.0
+      },
+      {
+        "ticker": "TSLA",
+        "period": "2025-12-31",
+        "field": "Operating Income",
+        "yahoo": 1571000000.0,
+        "edgar": 1409000000.0
+      }
+    ]
+  }
+}

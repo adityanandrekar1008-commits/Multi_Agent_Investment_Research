@@ -1,0 +1,608 @@
+{
+  "schema_version": "company_analysis/1.0",
+  "status": "ok",
+  "generated_at": "2026-11-11T04:03:16+00:00",
+  "request": {
+    "input": "AAPL",
+    "prefer_indian": false,
+    "as_of": null
+  },
+  "company": {
+    "symbol": "AAPL",
+    "name": "Apple Inc.",
+    "exchange": "NasdaqGS",
+    "country": "United States",
+    "sector": "Technology",
+    "industry": "Consumer Electronics",
+    "reporting_currency": "USD",
+    "trading_currency": "USD",
+    "resolution": {
+      "method": "as_typed",
+      "alternatives": []
+    }
+  },
+  "source": {
+    "provider": "Yahoo Finance (via yfinance)",
+    "retrieved_at": "2026-11-11T04:03:17+00:00",
+    "frequency": "quarterly",
+    "statements": {
+      "income_statement": {
+        "available": true,
+        "periods": 6,
+        "latest_period": "2026-09-30"
+      },
+      "balance_sheet": {
+        "available": true,
+        "periods": 7,
+        "latest_period": "2026-09-30"
+      },
+      "cash_flow": {
+        "available": true,
+        "periods": 7,
+        "latest_period": "2026-09-30"
+      }
+    },
+    "note": "Values are as reported by the provider, in the reporting currency's units (not thousands). Period end = fiscal quarter end, not the filing date."
+  },
+  "coverage": {
+    "usable_quarters": 5,
+    "first_period": "2025-09-30",
+    "latest_period": "2026-09-30",
+    "fiscal_quarter_end_months": [
+      3,
+      6,
+      9,
+      12
+    ],
+    "key_field_coverage": {
+      "Total Revenue": 1.0,
+      "Net Income": 1.0,
+      "Operating Income": 1.0,
+      "Total Assets": 1.0,
+      "Total Debt": 1.0,
+      "Stockholders Equity": 1.0,
+      "Current Assets": 1.0,
+      "Current Liabilities": 1.0,
+      "Operating Cash Flow": 1.0,
+      "Free Cash Flow": 1.0
+    }
+  },
+  "metrics": {
+    "currency": "USD",
+    "latest_period": "2026-09-30",
+    "latest": {
+      "values": {
+        "revenue": 114477000000.0,
+        "net_income": 30711000000.0,
+        "operating_income": 35631000000.0,
+        "ebit": 35631000000.0,
+        "interest_expense": null,
+        "total_assets": 404548000000.0,
+        "total_debt": 80111000000.0,
+        "stockholders_equity": 112093000000.0,
+        "cash_and_equivalents": 36305000000.0,
+        "current_assets": 173857000000.0,
+        "current_liabilities": 169915000000.0,
+        "operating_cash_flow": 28101000000.0,
+        "free_cash_flow": 25859000000.0
+      },
+      "ratios": {
+        "net_income_margin": 0.2682722293561152,
+        "operating_margin": 0.31125029481904665,
+        "debt_to_assets": 0.19802594500528986,
+        "debt_to_equity": 0.7146833432952995,
+        "current_ratio": 1.0231998352117235
+      },
+      "changes": {
+        "revenue_change_qoq": 0.04624509902483154,
+        "revenue_change_yoy": 0.11721937032771845
+      }
+    },
+    "periods": [
+      {
+        "period_end": "2025-09-30",
+        "values": {
+          "revenue": 102466000000.0,
+          "net_income": 27466000000.0,
+          "operating_income": 32427000000.0,
+          "ebit": 32427000000.0,
+          "interest_expense": null,
+          "total_assets": 359241000000.0,
+          "total_debt": 98657000000.0,
+          "stockholders_equity": 73733000000.0,
+          "cash_and_equivalents": 35934000000.0,
+          "current_assets": 147957000000.0,
+          "current_liabilities": 165631000000.0,
+          "operating_cash_flow": 29728000000.0,
+          "free_cash_flow": 26486000000.0
+        },
+        "ratios": {
+          "net_income_margin": 0.2680498897195167,
+          "operating_margin": 0.3164659496808698,
+          "debt_to_assets": 0.2746262258483859,
+          "debt_to_equity": 1.3380304612588665,
+          "current_ratio": 0.8932929222186667
+        },
+        "changes": {
+          "revenue_change_qoq": null,
+          "revenue_change_yoy": null
+        }
+      },
+      {
+        "period_end": "2025-12-31",
+        "values": {
+          "revenue": 143756000000.0,
+          "net_income": 42097000000.0,
+          "operating_income": 50852000000.0,
+          "ebit": 50852000000.0,
+          "interest_expense": null,
+          "total_assets": 379297000000.0,
+          "total_debt": 90509000000.0,
+          "stockholders_equity": 88190000000.0,
+          "cash_and_equivalents": 45317000000.0,
+          "current_assets": 158104000000.0,
+          "current_liabilities": 162367000000.0,
+          "operating_cash_flow": 53925000000.0,
+          "free_cash_flow": 51552000000.0
+        },
+        "ratios": {
+          "net_income_margin": 0.292836472912435,
+          "operating_margin": 0.35373827875010433,
+          "debt_to_assets": 0.23862303155574655,
+          "debt_to_equity": 1.0262954983558226,
+          "current_ratio": 0.9737446648641658
+        },
+        "changes": {
+          "revenue_change_qoq": 0.40296293404641537,
+          "revenue_change_yoy": null
+        }
+      },
+      {
+        "period_end": "2026-03-31",
+        "values": {
+          "revenue": 111184000000.0,
+          "net_income": 29578000000.0,
+          "operating_income": 35885000000.0,
+          "ebit": 35885000000.0,
+          "interest_expense": null,
+          "total_assets": 371082000000.0,
+          "total_debt": 84711000000.0,
+          "stockholders_equity": 106491000000.0,
+          "cash_and_equivalents": 45572000000.0,
+          "current_assets": 144114000000.0,
+          "current_liabilities": 134641000000.0,
+          "operating_cash_flow": 28702000000.0,
+          "free_cash_flow": 26731000000.0
+        },
+        "ratios": {
+          "net_income_margin": 0.2660274859692042,
+          "operating_margin": 0.32275327385235286,
+          "debt_to_assets": 0.22828108073148254,
+          "debt_to_equity": 0.7954756740006198,
+          "current_ratio": 1.07035746912159
+        },
+        "changes": {
+          "revenue_change_qoq": -0.2265783689028632,
+          "revenue_change_yoy": null
+        }
+      },
+      {
+        "period_end": "2026-06-30",
+        "values": {
+          "revenue": 109417000000.0,
+          "net_income": 29789000000.0,
+          "operating_income": 35695000000.0,
+          "ebit": 35695000000.0,
+          "interest_expense": null,
+          "total_assets": 383266000000.0,
+          "total_debt": 84344000000.0,
+          "stockholders_equity": 107520000000.0,
+          "cash_and_equivalents": 39544000000.0,
+          "current_assets": 149818000000.0,
+          "current_liabilities": 149326000000.0,
+          "operating_cash_flow": 34369000000.0,
+          "free_cash_flow": 31914000000.0
+        },
+        "ratios": {
+          "net_income_margin": 0.2722520266503377,
+          "operating_margin": 0.3262290137729969,
+          "debt_to_assets": 0.2200664812427922,
+          "debt_to_equity": 0.7844494047619047,
+          "current_ratio": 1.0032948046555858
+        },
+        "changes": {
+          "revenue_change_qoq": -0.015892574471146892,
+          "revenue_change_yoy": null
+        }
+      },
+      {
+        "period_end": "2026-09-30",
+        "values": {
+          "revenue": 114477000000.0,
+          "net_income": 30711000000.0,
+          "operating_income": 35631000000.0,
+          "ebit": 35631000000.0,
+          "interest_expense": null,
+          "total_assets": 404548000000.0,
+          "total_debt": 80111000000.0,
+          "stockholders_equity": 112093000000.0,
+          "cash_and_equivalents": 36305000000.0,
+          "current_assets": 173857000000.0,
+          "current_liabilities": 169915000000.0,
+          "operating_cash_flow": 28101000000.0,
+          "free_cash_flow": 25859000000.0
+        },
+        "ratios": {
+          "net_income_margin": 0.2682722293561152,
+          "operating_margin": 0.31125029481904665,
+          "debt_to_assets": 0.19802594500528986,
+          "debt_to_equity": 0.7146833432952995,
+          "current_ratio": 1.0231998352117235
+        },
+        "changes": {
+          "revenue_change_qoq": 0.04624509902483154,
+          "revenue_change_yoy": 0.11721937032771845
+        }
+      }
+    ],
+    "ratio_definitions": {
+      "net_income_margin": "Net Income / Total Revenue (missing if Total Revenue <= 0)",
+      "operating_margin": "Operating Income / Total Revenue (missing if Total Revenue <= 0)",
+      "debt_to_assets": "Total Debt / Total Assets (missing if Total Assets <= 0)",
+      "debt_to_equity": "Total Debt / Stockholders Equity (missing if Stockholders Equity <= 0)",
+      "current_ratio": "Current Assets / Current Liabilities (missing if Current Liabilities <= 0)"
+    }
+  },
+  "risk_flags": {
+    "summary": {
+      "rules_version": "1.0",
+      "evaluated": 10,
+      "not_evaluable": 1,
+      "triggered": 0,
+      "triggered_by_severity": {
+        "high": 0,
+        "medium": 0,
+        "low": 0
+      }
+    },
+    "flags": [
+      {
+        "id": "net_loss",
+        "category": "profitability",
+        "severity": "medium",
+        "title": "Net loss",
+        "rule": "Net Income < 0 in the latest quarter",
+        "status": "not_triggered",
+        "value": 30711000000.0,
+        "threshold": 0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Net Income": 30711000000.0
+        },
+        "explanation": "The company reported a net profit for the quarter."
+      },
+      {
+        "id": "operating_loss",
+        "category": "profitability",
+        "severity": "medium",
+        "title": "Operating loss",
+        "rule": "Operating Income < 0 in the latest quarter",
+        "status": "not_triggered",
+        "value": 35631000000.0,
+        "threshold": 0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Operating Income": 35631000000.0
+        },
+        "explanation": "Core operations were profitable in the quarter."
+      },
+      {
+        "id": "revenue_decline_yoy",
+        "category": "growth",
+        "severity": "medium",
+        "title": "Revenue down year over year",
+        "rule": "Revenue vs the same quarter a year earlier < -5%",
+        "status": "not_triggered",
+        "value": 0.117219,
+        "threshold": -0.05,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Total Revenue": 114477000000.0,
+          "Total Revenue (year earlier)": 102466000000.0
+        },
+        "explanation": "Revenue was +11.7% versus 2025-09-30."
+      },
+      {
+        "id": "operating_margin_drop_yoy",
+        "category": "profitability",
+        "severity": "low",
+        "title": "Operating margin down year over year",
+        "rule": "Operating margin vs the same quarter a year earlier < -5 percentage points",
+        "status": "not_triggered",
+        "value": -0.005216,
+        "threshold": -0.05,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Operating margin": 0.31125029481904665,
+          "Operating margin (year earlier)": 0.3164659496808698
+        },
+        "explanation": "Operating margin moved from 31.6% to 31.1%."
+      },
+      {
+        "id": "low_current_ratio",
+        "category": "liquidity",
+        "severity": "medium",
+        "title": "Current ratio below 1",
+        "rule": "Current Assets / Current Liabilities < 1.0",
+        "status": "not_triggered",
+        "value": 1.0232,
+        "threshold": 1.0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Current Assets": 173857000000.0,
+          "Current Liabilities": 169915000000.0
+        },
+        "explanation": "Short-term assets cover short-term liabilities (ratio 1.02)."
+      },
+      {
+        "id": "negative_equity",
+        "category": "solvency",
+        "severity": "high",
+        "title": "Negative shareholders' equity",
+        "rule": "Stockholders Equity <= 0",
+        "status": "not_triggered",
+        "value": 112093000000.0,
+        "threshold": 0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Stockholders Equity": 112093000000.0
+        },
+        "explanation": "Shareholders' equity is positive."
+      },
+      {
+        "id": "high_debt_to_equity",
+        "category": "leverage",
+        "severity": "medium",
+        "title": "High debt to equity",
+        "rule": "Total Debt / Stockholders Equity > 2.0",
+        "status": "not_triggered",
+        "value": 0.714683,
+        "threshold": 2.0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Total Debt": 80111000000.0,
+          "Stockholders Equity": 112093000000.0
+        },
+        "explanation": "Debt is 0.71 times shareholders' equity."
+      },
+      {
+        "id": "high_debt_to_assets",
+        "category": "leverage",
+        "severity": "medium",
+        "title": "High debt to assets",
+        "rule": "Total Debt / Total Assets > 0.5",
+        "status": "not_triggered",
+        "value": 0.198026,
+        "threshold": 0.5,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Total Debt": 80111000000.0,
+          "Total Assets": 404548000000.0
+        },
+        "explanation": "Debt finances 20% of total assets."
+      },
+      {
+        "id": "low_interest_coverage",
+        "category": "solvency",
+        "severity": "medium",
+        "title": "Low interest coverage",
+        "rule": "EBIT / Interest Expense < 1.5",
+        "status": "not_evaluable",
+        "value": null,
+        "threshold": null,
+        "period_end": null,
+        "inputs": {},
+        "explanation": "EBIT or interest expense is not reported."
+      },
+      {
+        "id": "negative_operating_cash_flow",
+        "category": "cash_flow",
+        "severity": "medium",
+        "title": "Negative operating cash flow",
+        "rule": "Operating Cash Flow < 0",
+        "status": "not_triggered",
+        "value": 28101000000.0,
+        "threshold": 0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Operating Cash Flow": 28101000000.0
+        },
+        "explanation": "Operations generated cash in the quarter."
+      },
+      {
+        "id": "negative_free_cash_flow",
+        "category": "cash_flow",
+        "severity": "low",
+        "title": "Negative free cash flow",
+        "rule": "Free Cash Flow < 0",
+        "status": "not_triggered",
+        "value": 25859000000.0,
+        "threshold": 0,
+        "period_end": "2026-09-30",
+        "inputs": {
+          "Free Cash Flow": 25859000000.0
+        },
+        "explanation": "Cash from operations covered capital spending in the quarter."
+      }
+    ]
+  },
+  "ml_signal": {
+    "status": "available",
+    "label": "experimental",
+    "recommended_use": "research only; do not display as a prediction, probability or risk score",
+    "model": "logreg_5_ratios",
+    "target": "next reported quarter's revenue lower than this quarter's",
+    "horizon": "one quarter",
+    "period_end": "2026-09-30",
+    "score": 0.4901464567829281,
+    "score_meaning": "Uncalibrated logistic-regression score between 0 and 1; not a probability. Classes are re-weighted in training, so 0.5 does not equal the historical decline rate.",
+    "predicted_class": "no_decline",
+    "intercept": -0.24944709966470802,
+    "inputs": {
+      "Net_Income_Margin": {
+        "value": 0.2682722293561152,
+        "imputed": false,
+        "value_used": 0.2682722293561152,
+        "training_median": 0.2924046957315303,
+        "contribution": 0.02834934604134622
+      },
+      "Operating_Margin": {
+        "value": 0.31125029481904665,
+        "imputed": false,
+        "value_used": 0.31125029481904665,
+        "training_median": 0.3227532738523528,
+        "contribution": 0.0008878280357431863
+      },
+      "Debt_To_Assets": {
+        "value": 0.19802594500528986,
+        "imputed": false,
+        "value_used": 0.19802594500528986,
+        "training_median": 0.16809633864705645,
+        "contribution": 0.36840289828721184
+      },
+      "Debt_To_Equity": {
+        "value": 0.7146833432952995,
+        "imputed": false,
+        "value_used": 0.7146833432952995,
+        "training_median": 0.2585845050272697,
+        "contribution": 0.0661059969545323
+      },
+      "Current_Ratio": {
+        "value": 1.0231998352117235,
+        "imputed": false,
+        "value_used": 1.0231998352117235,
+        "training_median": 1.825539136974247,
+        "contribution": -0.2537182461293768
+      }
+    },
+    "top_contributions": [
+      {
+        "feature": "Debt_To_Assets",
+        "contribution": 0.36840289828721184,
+        "direction": "towards decline"
+      },
+      {
+        "feature": "Current_Ratio",
+        "contribution": -0.2537182461293768,
+        "direction": "towards no decline"
+      },
+      {
+        "feature": "Debt_To_Equity",
+        "contribution": 0.0661059969545323,
+        "direction": "towards decline"
+      }
+    ],
+    "contribution_note": "Contribution = coefficient x standardized input, in log-odds. Intercept + sum of contributions = logit(score). Associations in a small sample, not causes.",
+    "training": {
+      "rows": 31,
+      "companies": [
+        "AAPL",
+        "AMZN",
+        "GOOGL",
+        "META",
+        "MSFT",
+        "NVDA",
+        "RELIANCE.NS",
+        "TSLA"
+      ],
+      "period_range": [
+        "2025-03-31",
+        "2026-04-30"
+      ],
+      "declines": 8
+    },
+    "evaluation": {
+      "available": true,
+      "verdict": "There is no evidence that the model predicts revenue declines better than chance. Treat its output as an experimental research signal only, never as a risk score or investment advice.",
+      "schemes": {
+        "walk_forward": {
+          "balanced_accuracy": 0.5,
+          "balanced_accuracy_95ci": [
+            0.25,
+            0.7777777777777777
+          ],
+          "permutation_p_value": 0.5323383084577115,
+          "test_rows": 15
+        },
+        "unseen_company": {
+          "balanced_accuracy": 0.5326086956521738,
+          "balanced_accuracy_95ci": [
+            0.3233333333333333,
+            0.7366874999999999
+          ],
+          "permutation_p_value": 0.43781094527363185,
+          "test_rows": 31
+        },
+        "walk_forward_unseen_company": {
+          "balanced_accuracy": 0.6944444444444444,
+          "balanced_accuracy_95ci": [
+            0.4583333333333333,
+            0.9285714285714286
+          ],
+          "permutation_p_value": 0.12935323383084577,
+          "test_rows": 15
+        }
+      },
+      "report": "reports/model_evaluation.md"
+    },
+    "limitations": [
+      "Evaluation found no evidence that the model predicts revenue declines better than chance. A larger check on 429 SEC EDGAR quarters (7 US companies, 2009-2026) agreed: no better than chance, while a simple same-calendar-quarter rule did much better (reports/sec_edgar/).",
+      "The label is mostly seasonal: December quarters are usually followed by a lower March quarter.",
+      "Trained on a few dozen quarters from 8 large companies; not representative of other sectors, sizes or markets.",
+      "Predicts a lower next-quarter revenue only; not losses, defaults or share price moves.",
+      "Missing inputs are replaced with the training median, which can hide unusual values (e.g. negative equity)."
+    ]
+  },
+  "data_quality": {
+    "finding_counts": {
+      "error": 0,
+      "warning": 0,
+      "info": 2
+    },
+    "findings": [
+      {
+        "severity": "info",
+        "check": "empty_period",
+        "ticker": "AAPL",
+        "period": "2025-06-30",
+        "message": "Provider returned this older date without income-statement values; it is dropped before modelling.",
+        "value": null
+      },
+      {
+        "severity": "info",
+        "check": "short_history",
+        "ticker": "AAPL",
+        "period": null,
+        "message": "Only 5 usable quarters (enough for one year-over-year comparison only).",
+        "value": 5.0
+      }
+    ],
+    "ratio_formula_check": {
+      "Net_Income_Margin": "ok",
+      "Operating_Margin": "ok",
+      "Debt_To_Assets": "ok",
+      "Debt_To_Equity": "ok",
+      "Current_Ratio": "ok"
+    }
+  },
+  "warnings": [],
+  "error": null,
+  "disclaimer": "Informational research output only; not investment advice. Figures come from a third-party data provider and may be incomplete, delayed, or restated. Risk flags are general screening rules, and the ML signal is experimental and has not been shown to predict better than chance.",
+  "files": {
+    "pipeline_log": "outputs/AAPL_20261111_093316/pipeline.log",
+    "quarterly_financials": "outputs/AAPL_20261111_093316/quarterly_financials.csv",
+    "data_quality_report": "outputs/AAPL_20261111_093316/data_quality.md",
+    "summary": "outputs/AAPL_20261111_093316/summary.json",
+    "report": "outputs/AAPL_20261111_093316/report.md"
+  }
+}

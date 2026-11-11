@@ -74,13 +74,21 @@ Multi-Agent Investment Research and Risk Analysis System
 
 \## Latest Explainability Results
 
-\- Training observations: 21
+\- Updated 2026-11-07: the split is now on a date boundary (the earlier row-position split put 2025-12-31 rows in both training and test).
 
-\- Test observations: 10
+\- Training observations: 23
 
-\- Correct test predictions: 5 out of 10
+\- Test observations: 8 (1 actual decline)
+
+\- Correct test predictions: 5 out of 8; the one actual decline was missed
 
 \- Standardized coefficients are available in the feature-explanations CSV.
+
+\- Full evaluation with baselines, time- and company-aware validation and a permutation test: reports/model\_evaluation.md. No validation scheme shows the model beating chance.
+
+\- Repeated on 429 SEC EDGAR quarters (7 US companies, 2009-2026; reports/sec\_edgar/): still no better than chance on the next-quarter target. A same-calendar-quarter rule scores about 0.77. On the year-over-year target there is one borderline result (p = 0.0498), which does not hold for unseen companies.
+
+\- Output for the FinTech app: docs/output\_schema.md and schemas/company\_analysis.schema.json (company\_analysis/1.0, with rule-based risk flags and a separate experimental ML signal).
 
 
 

@@ -1,0 +1,28 @@
+{
+  "schema_version": "company_analysis/1.0",
+  "status": "error",
+  "generated_at": "2026-11-11T04:03:24+00:00",
+  "request": {
+    "input": "ZZZQXNOTREAL",
+    "prefer_indian": false,
+    "as_of": null
+  },
+  "company": null,
+  "source": null,
+  "coverage": null,
+  "metrics": null,
+  "risk_flags": null,
+  "ml_signal": null,
+  "data_quality": null,
+  "warnings": [],
+  "error": {
+    "code": "unknown_company",
+    "message": "No listed company matched 'ZZZQXNOTREAL'. Try the exact ticker, e.g. RELIANCE.NS, TCS.NS or AAPL.",
+    "candidates": []
+  },
+  "disclaimer": "Informational research output only; not investment advice. Figures come from a third-party data provider and may be incomplete, delayed, or restated. Risk flags are general screening rules, and the ML signal is experimental and has not been shown to predict better than chance.",
+  "files": {
+    "summary": "outputs/ZZZQXNOTREAL_20261111_093324/summary.json",
+    "report": "outputs/ZZZQXNOTREAL_20261111_093324/report.md"
+  }
+}
