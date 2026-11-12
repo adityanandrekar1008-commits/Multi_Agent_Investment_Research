@@ -13,6 +13,7 @@ Downloads are cached under data/raw/sec_edgar/cache/ (git-ignored).
 from __future__ import annotations
 
 import json
+import threading
 import time
 from pathlib import Path
 
@@ -26,7 +27,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CACHE_DIR = PROJECT_ROOT / "data" / "raw" / "sec_edgar" / "cache"
 TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 FACTS_URL = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
-MIN_SECONDS_BETWEEN_REQUESTS = 0.2   # 5 requests/second, half the SEC limit
+MIN_SECONDS_BETWEEN_REQUESTS = 0.15  # about 6-7 requests/second; SEC limit is 10
 
 
 class EdgarConfigError(RuntimeError):
@@ -45,27 +46,34 @@ class EdgarClient:
             )
         self.cache_dir = Path(cache_dir)
         self.max_cache_age = max_cache_age_days * 86400
-        self._last_request = 0.0
+        self._next_slot = 0.0
+        self._lock = threading.Lock()
         self._tickers = None
+
+    def _reserve_slot(self):
+        """Thread-safe rate limit: request starts are spaced at least
+        MIN_SECONDS_BETWEEN_REQUESTS apart, even with parallel downloads."""
+        with self._lock:
+            now = time.time()
+            start = max(now, self._next_slot)
+            self._next_slot = start + MIN_SECONDS_BETWEEN_REQUESTS
+        if start > now:
+            time.sleep(start - now)
 
     def _get_json(self, url, cache_name):
         cache = self.cache_dir / cache_name
         if cache.exists() and time.time() - cache.stat().st_mtime < self.max_cache_age:
             return json.loads(cache.read_text(encoding="utf-8"))
 
-        wait = MIN_SECONDS_BETWEEN_REQUESTS - (time.time() - self._last_request)
-        if wait > 0:
-            time.sleep(wait)
+        self._reserve_slot()
         try:
             response = requests.get(
-                url, timeout=30,
+                url, timeout=60,
                 headers={"User-Agent": self.user_agent,
                          "Accept-Encoding": "gzip, deflate"},
             )
         except requests.RequestException as exc:
             raise ProviderError(f"SEC EDGAR request failed: {exc}") from exc
-        finally:
-            self._last_request = time.time()
         if response.status_code == 404:
             return None
         if response.status_code != 200:
@@ -73,7 +81,7 @@ class EdgarClient:
                 f"SEC EDGAR returned HTTP {response.status_code} for {url}"
             )
         data = response.json()
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        cache.parent.mkdir(parents=True, exist_ok=True)
         cache.write_text(json.dumps(data), encoding="utf-8")
         return data
 

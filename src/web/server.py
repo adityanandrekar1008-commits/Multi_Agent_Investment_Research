@@ -76,6 +76,17 @@ class Handler(BaseHTTPRequestHandler):
                 status = STATUS_BY_ERROR.get(summary["error"]["code"], 500)
             self._send(status, json.dumps(summary, default=str),
                        "application/json; charset=utf-8")
+        elif url.path == "/api/research":
+            from src.agents.manager import run_research
+
+            company = parse_qs(url.query).get("company", [""])[0]
+            with _analysis_lock:
+                report = run_research(company, output_root=self.output_root)
+            status = 200
+            if report["status"] == "error":
+                status = STATUS_BY_ERROR.get(report["error"]["code"], 500)
+            self._send(status, json.dumps(report, default=str),
+                       "application/json; charset=utf-8")
         elif url.path == "/favicon.ico":
             self.send_response(204)
             self.end_headers()

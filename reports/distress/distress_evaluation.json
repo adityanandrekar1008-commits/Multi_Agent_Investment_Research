@@ -1,0 +1,794 @@
+{
+  "data": {
+    "rows": 46947,
+    "companies": 7101,
+    "years": [
+      2010,
+      2025
+    ],
+    "base_rate": 0.3478177519330309,
+    "persistence": 0.783997041055357
+  },
+  "results": {
+    "walk_forward": {
+      "evaluated_rows": 35180,
+      "all": {
+        "logistic": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.8991755470956873,
+          "pr_auc": 0.8505130967736901,
+          "top10_precision": 0.9431495167708925,
+          "top10_recall": 0.2529734675205855,
+          "balanced_accuracy": 0.8367146221997235,
+          "roc_auc_95ci": [
+            0.8954554432861787,
+            0.903323707278703
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.06299552386833795,
+            0.06800035738475924
+          ]
+        },
+        "gradient_boosting": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.9157114915057053,
+          "pr_auc": 0.8686176359607656,
+          "top10_precision": 0.9502558271745309,
+          "top10_recall": 0.2548795364440378,
+          "balanced_accuracy": 0.8411829163258134,
+          "roc_auc_95ci": [
+            0.9125844934067947,
+            0.9194746448260339
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.07884791743279011,
+            0.08454326182508443
+          ]
+        },
+        "base_rate": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.5,
+          "pr_auc": 0.37282546901648667,
+          "top10_precision": 0.1725412166003411,
+          "top10_recall": 0.04627935346142117,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.8335362557253942,
+          "pr_auc": 0.7056593166305611,
+          "top10_precision": 0.7379192723138147,
+          "top10_recall": 0.19792619701128392,
+          "balanced_accuracy": 0.8335362557253942,
+          "roc_auc_95ci": [
+            0.8285134942466938,
+            0.8384087115273304
+          ]
+        },
+        "altman_z2": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.7469803510832442,
+          "pr_auc": 0.6878994260600094,
+          "top10_precision": 0.8610005685048323,
+          "top10_recall": 0.23093931076547727,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.7377948376687005,
+            0.7554146019614032
+          ]
+        },
+        "loss_now": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.76915810055242,
+          "pr_auc": 0.5996598545330425,
+          "top10_precision": 0.5804434337691871,
+          "top10_recall": 0.15568770966758158,
+          "balanced_accuracy": 0.76915810055242,
+          "roc_auc_95ci": [
+            0.7632366210478557,
+            0.7768778118542018
+          ]
+        },
+        "_best_baseline": "persistence"
+      },
+      "healthy_now": {
+        "logistic": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.7335428033520893,
+          "pr_auc": 0.3072847200130179,
+          "top10_precision": 0.37342342342342344,
+          "top10_recall": 0.29723915381857297,
+          "balanced_accuracy": 0.5483981089870412,
+          "roc_auc_95ci": [
+            0.7210457987072312,
+            0.7457861189325685
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.12061829030283455,
+            0.14122976575169496
+          ]
+        },
+        "gradient_boosting": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.7981242255241521,
+          "pr_auc": 0.36515257424089137,
+          "top10_precision": 0.4166666666666667,
+          "top10_recall": 0.33166009322337753,
+          "balanced_accuracy": 0.6196985049160089,
+          "roc_auc_95ci": [
+            0.7883765709684197,
+            0.8066543467045022
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.18434532527414524,
+            0.20448918509884553
+          ]
+        },
+        "base_rate": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5,
+          "pr_auc": 0.12565327085961434,
+          "top10_precision": 0.07477477477477477,
+          "top10_recall": 0.05951954105414127,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5,
+          "pr_auc": 0.12565327085961434,
+          "top10_precision": 0.07477477477477477,
+          "top10_recall": 0.05951954105414127,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "altman_z2": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5941708590508136,
+          "pr_auc": 0.20971818354042704,
+          "top10_precision": 0.29009009009009007,
+          "top10_recall": 0.23090713517389747,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5787833144124134,
+            0.6079925800972378
+          ]
+        },
+        "loss_now": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.6031390240161854,
+          "pr_auc": 0.17348205337849967,
+          "top10_precision": 0.2693693693693694,
+          "top10_recall": 0.21441376837576193,
+          "balanced_accuracy": 0.6031390240161854,
+          "roc_auc_95ci": [
+            0.5947315043740042,
+            0.6122527073109285
+          ]
+        },
+        "_best_baseline": "loss_now"
+      }
+    },
+    "unseen_company": {
+      "evaluated_rows": 46947,
+      "all": {
+        "logistic": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.8997637721263567,
+          "pr_auc": 0.8390563580397231,
+          "top10_precision": 0.9331203407880724,
+          "top10_recall": 0.26829567027987017,
+          "balanced_accuracy": 0.8364160538002577,
+          "roc_auc_95ci": [
+            0.8959918515060372,
+            0.9041089018942791
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.06489259038921306,
+            0.06942590749582007
+          ]
+        },
+        "gradient_boosting": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.9209860167943152,
+          "pr_auc": 0.8660441526573,
+          "top10_precision": 0.952076677316294,
+          "top10_recall": 0.27374609590299465,
+          "balanced_accuracy": 0.8442205095217346,
+          "roc_auc_95ci": [
+            0.9179905531244901,
+            0.9248687983946525
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.08646613548758829,
+            0.09092865061890827
+          ]
+        },
+        "base_rate": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.5,
+          "pr_auc": 0.3478177519330309,
+          "top10_precision": 0.16187433439829607,
+          "top10_recall": 0.04654296037724294,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.8322086063289512,
+          "pr_auc": 0.6875402211018559,
+          "top10_precision": 0.7333333333333333,
+          "top10_recall": 0.21085185865637823,
+          "balanced_accuracy": 0.8322086063289511,
+          "roc_auc_95ci": [
+            0.8280588155334409,
+            0.8371526977976251
+          ]
+        },
+        "altman_z2": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.7531112526740619,
+          "pr_auc": 0.6659086768194037,
+          "top10_precision": 0.8342917997870074,
+          "top10_recall": 0.23987996815481658,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.7447326698822723,
+            0.7605129495743487
+          ]
+        },
+        "loss_now": {
+          "n": 46947,
+          "positives": 16329,
+          "base_rate": 0.3478177519330309,
+          "roc_auc": 0.769267043421411,
+          "pr_auc": 0.5792974262247,
+          "top10_precision": 0.5874334398296059,
+          "top10_recall": 0.1689019535795211,
+          "balanced_accuracy": 0.769267043421411,
+          "roc_auc_95ci": [
+            0.7635868096801444,
+            0.7750352725555769
+          ]
+        },
+        "_best_baseline": "persistence"
+      },
+      "healthy_now": {
+        "logistic": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.7399690336315046,
+          "pr_auc": 0.3074032272316132,
+          "top10_precision": 0.3746744791666667,
+          "top10_recall": 0.31874826917751314,
+          "balanced_accuracy": 0.5422393466755506,
+          "roc_auc_95ci": [
+            0.7303634928850402,
+            0.7502515009778046
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.123091880453267,
+            0.15140639511977627
+          ]
+        },
+        "gradient_boosting": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.8214210406174413,
+          "pr_auc": 0.38704308323876396,
+          "top10_precision": 0.4182942708333333,
+          "top10_recall": 0.35585710329548603,
+          "balanced_accuracy": 0.6122438261419526,
+          "roc_auc_95ci": [
+            0.8123257610978525,
+            0.8293276248227768
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.2041492333300506,
+            0.23009991254281223
+          ]
+        },
+        "base_rate": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.5,
+          "pr_auc": 0.11753792070828722,
+          "top10_precision": 0.06901041666666667,
+          "top10_recall": 0.05870949875380781,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.5,
+          "pr_auc": 0.11753792070828722,
+          "top10_precision": 0.06901041666666667,
+          "top10_recall": 0.05870949875380781,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "altman_z2": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.6044686377646751,
+          "pr_auc": 0.19906664495651916,
+          "top10_precision": 0.2766927083333333,
+          "top10_recall": 0.23539185821102188,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5918064776037095,
+            0.6157511241355293
+          ]
+        },
+        "loss_now": {
+          "n": 30722,
+          "positives": 3611,
+          "base_rate": 0.11753792070828722,
+          "roc_auc": 0.6010626886169407,
+          "pr_auc": 0.16365275984422467,
+          "top10_precision": 0.2623697916666667,
+          "top10_recall": 0.22320686790362781,
+          "balanced_accuracy": 0.6010626886169407,
+          "roc_auc_95ci": [
+            0.593502830544167,
+            0.6087408784105104
+          ]
+        },
+        "_best_baseline": "altman_z2"
+      }
+    },
+    "walk_forward_unseen_company": {
+      "evaluated_rows": 35180,
+      "all": {
+        "logistic": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.8990689682635515,
+          "pr_auc": 0.8502173755690141,
+          "top10_precision": 0.9425810119386014,
+          "top10_recall": 0.2528209820067094,
+          "balanced_accuracy": 0.8372576376002074,
+          "roc_auc_95ci": [
+            0.8953189064866163,
+            0.9031728493808203
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.06291340867369122,
+            0.0679123249460476
+          ]
+        },
+        "gradient_boosting": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.9134452754204632,
+          "pr_auc": 0.865907942864345,
+          "top10_precision": 0.94968732234224,
+          "top10_recall": 0.2547270509301616,
+          "balanced_accuracy": 0.8388460813545049,
+          "roc_auc_95ci": [
+            0.9100342368404573,
+            0.9175332526100547
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.07660610692650179,
+            0.08248139069195749
+          ]
+        },
+        "base_rate": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.5,
+          "pr_auc": 0.37282546901648667,
+          "top10_precision": 0.1725412166003411,
+          "top10_recall": 0.04627935346142117,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.8335362557253942,
+          "pr_auc": 0.7056593166305611,
+          "top10_precision": 0.7379192723138147,
+          "top10_recall": 0.19792619701128392,
+          "balanced_accuracy": 0.8335362557253942,
+          "roc_auc_95ci": [
+            0.8285134942466938,
+            0.8384087115273304
+          ]
+        },
+        "altman_z2": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.7469803510832442,
+          "pr_auc": 0.6878994260600094,
+          "top10_precision": 0.8610005685048323,
+          "top10_recall": 0.23093931076547727,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.7377948376687005,
+            0.7554146019614032
+          ]
+        },
+        "loss_now": {
+          "n": 35180,
+          "positives": 13116,
+          "base_rate": 0.37282546901648667,
+          "roc_auc": 0.76915810055242,
+          "pr_auc": 0.5996598545330425,
+          "top10_precision": 0.5804434337691871,
+          "top10_recall": 0.15568770966758158,
+          "balanced_accuracy": 0.76915810055242,
+          "roc_auc_95ci": [
+            0.7632366210478557,
+            0.7768778118542018
+          ]
+        },
+        "_best_baseline": "persistence"
+      },
+      "healthy_now": {
+        "logistic": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.733450666695636,
+          "pr_auc": 0.30690179680479096,
+          "top10_precision": 0.3747747747747748,
+          "top10_recall": 0.29831480817497313,
+          "balanced_accuracy": 0.5524688513160272,
+          "roc_auc_95ci": [
+            0.7212246256597782,
+            0.7458679049987336
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.1207220874653145,
+            0.14121431587091932
+          ]
+        },
+        "gradient_boosting": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.7896723916471904,
+          "pr_auc": 0.36010916486106076,
+          "top10_precision": 0.404954954954955,
+          "top10_recall": 0.32233775546790966,
+          "balanced_accuracy": 0.6098930824954893,
+          "roc_auc_95ci": [
+            0.7798764288754307,
+            0.7992997501636858
+          ],
+          "auc_minus_best_baseline_95ci": [
+            0.17568972627007814,
+            0.19521126581183618
+          ]
+        },
+        "base_rate": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5,
+          "pr_auc": 0.12565327085961434,
+          "top10_precision": 0.07477477477477477,
+          "top10_recall": 0.05951954105414127,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "persistence": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5,
+          "pr_auc": 0.12565327085961434,
+          "top10_precision": 0.07477477477477477,
+          "top10_recall": 0.05951954105414127,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5,
+            0.5
+          ]
+        },
+        "altman_z2": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.5941708590508136,
+          "pr_auc": 0.20971818354042704,
+          "top10_precision": 0.29009009009009007,
+          "top10_recall": 0.23090713517389747,
+          "balanced_accuracy": 0.5,
+          "roc_auc_95ci": [
+            0.5787833144124134,
+            0.6079925800972378
+          ]
+        },
+        "loss_now": {
+          "n": 22196,
+          "positives": 2789,
+          "base_rate": 0.12565327085961434,
+          "roc_auc": 0.6031390240161854,
+          "pr_auc": 0.17348205337849967,
+          "top10_precision": 0.2693693693693694,
+          "top10_recall": 0.21441376837576193,
+          "balanced_accuracy": 0.6031390240161854,
+          "roc_auc_95ci": [
+            0.5947315043740042,
+            0.6122527073109285
+          ]
+        },
+        "_best_baseline": "loss_now"
+      }
+    }
+  },
+  "conclusions": [
+    "walk_forward, all companies: gradient boosting AUC 0.916, logistic 0.899, persistence 0.834 (base rate 37.3%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.079 to +0.085.",
+    "walk_forward, companies not in distress now (new distress): gradient boosting AUC 0.798, logistic 0.734, loss_now 0.603 (base rate 12.6%); the better model (gradient_boosting) is better than the best baseline (loss_now); the 95% interval of the AUC gain is +0.184 to +0.204.",
+    "unseen_company, all companies: gradient boosting AUC 0.921, logistic 0.900, persistence 0.832 (base rate 34.8%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.086 to +0.091.",
+    "unseen_company, companies not in distress now (new distress): gradient boosting AUC 0.821, logistic 0.740, altman_z2 0.604 (base rate 11.8%); the better model (gradient_boosting) is better than the best baseline (altman_z2); the 95% interval of the AUC gain is +0.204 to +0.230.",
+    "walk_forward_unseen_company, all companies: gradient boosting AUC 0.913, logistic 0.899, persistence 0.834 (base rate 37.3%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.077 to +0.082.",
+    "walk_forward_unseen_company, companies not in distress now (new distress): gradient boosting AUC 0.790, logistic 0.733, loss_now 0.603 (base rate 12.6%); the better model (gradient_boosting) is better than the best baseline (loss_now); the 95% interval of the AUC gain is +0.176 to +0.195."
+  ],
+  "final_model": {
+    "model_name": "gradient_boosting",
+    "features": [
+      "log_assets",
+      "roa",
+      "operating_margin",
+      "net_margin",
+      "gross_margin",
+      "ocf_to_assets",
+      "ocf_to_liabilities",
+      "accruals",
+      "leverage",
+      "debt_to_assets",
+      "equity_to_liabilities",
+      "current_ratio",
+      "cash_to_assets",
+      "working_capital_to_assets",
+      "retained_earnings_to_assets",
+      "interest_coverage",
+      "altman_z2",
+      "revenue_growth",
+      "d_roa",
+      "d_leverage",
+      "d_current_ratio",
+      "d_gross_margin",
+      "d_operating_margin",
+      "loss_now",
+      "cash_burn_now",
+      "negative_equity_now",
+      "weak_coverage_now",
+      "distress_now"
+    ],
+    "feature_descriptions": {
+      "log_assets": "Company size (log of total assets)",
+      "roa": "Return on assets (net income / assets)",
+      "operating_margin": "Operating margin",
+      "net_margin": "Net margin",
+      "gross_margin": "Gross margin",
+      "ocf_to_assets": "Operating cash flow / assets",
+      "ocf_to_liabilities": "Operating cash flow / liabilities",
+      "accruals": "Accruals ((net income - operating cash flow) / assets)",
+      "leverage": "Liabilities / assets",
+      "debt_to_assets": "Long-term debt / assets",
+      "equity_to_liabilities": "Equity / liabilities",
+      "current_ratio": "Current ratio",
+      "cash_to_assets": "Cash / assets",
+      "working_capital_to_assets": "Working capital / assets",
+      "retained_earnings_to_assets": "Retained earnings / assets",
+      "interest_coverage": "Interest coverage (operating income / interest)",
+      "altman_z2": "Altman Z'' score",
+      "revenue_growth": "Revenue growth vs previous year",
+      "d_roa": "Change in return on assets",
+      "d_leverage": "Change in leverage",
+      "d_current_ratio": "Change in current ratio",
+      "d_gross_margin": "Change in gross margin",
+      "d_operating_margin": "Change in operating margin",
+      "loss_now": "Net loss this year",
+      "cash_burn_now": "Loss and negative operating cash flow this year",
+      "negative_equity_now": "Negative equity this year",
+      "weak_coverage_now": "Interest coverage below 1 this year",
+      "distress_now": "In distress this year"
+    },
+    "training_rows": 46947,
+    "training_companies": 7101,
+    "training_years": [
+      2010,
+      2025
+    ],
+    "base_rate": 0.3478177519330309,
+    "score_percentiles": {
+      "10": 0.02732260063170611,
+      "25": 0.0633664260168601,
+      "50": 0.27143599335821667,
+      "75": 0.8110326712033389,
+      "90": 0.9571687727750613,
+      "95": 0.971823084039088,
+      "99": 0.9841892180023454
+    },
+    "trained_at": "2026-11-12T09:33:17",
+    "evaluation": {
+      "n": 35180,
+      "positives": 13116,
+      "base_rate": 0.37282546901648667,
+      "roc_auc": 0.9134452754204632,
+      "pr_auc": 0.865907942864345,
+      "top10_precision": 0.94968732234224,
+      "top10_recall": 0.2547270509301616,
+      "balanced_accuracy": 0.8388460813545049,
+      "roc_auc_95ci": [
+        0.9100342368404573,
+        0.9175332526100547
+      ],
+      "auc_minus_best_baseline_95ci": [
+        0.07660610692650179,
+        0.08248139069195749
+      ]
+    },
+    "global_importance": [
+      {
+        "feature": "distress_now",
+        "description": "In distress this year",
+        "mean_abs_shap": 1.1118701106096145
+      },
+      {
+        "feature": "interest_coverage",
+        "description": "Interest coverage (operating income / interest)",
+        "mean_abs_shap": 0.47689386725956934
+      },
+      {
+        "feature": "ocf_to_assets",
+        "description": "Operating cash flow / assets",
+        "mean_abs_shap": 0.2589111902005541
+      },
+      {
+        "feature": "operating_margin",
+        "description": "Operating margin",
+        "mean_abs_shap": 0.25744874188032363
+      },
+      {
+        "feature": "log_assets",
+        "description": "Company size (log of total assets)",
+        "mean_abs_shap": 0.21403863216024396
+      },
+      {
+        "feature": "retained_earnings_to_assets",
+        "description": "Retained earnings / assets",
+        "mean_abs_shap": 0.2063329408210332
+      },
+      {
+        "feature": "equity_to_liabilities",
+        "description": "Equity / liabilities",
+        "mean_abs_shap": 0.1390550033066921
+      },
+      {
+        "feature": "ocf_to_liabilities",
+        "description": "Operating cash flow / liabilities",
+        "mean_abs_shap": 0.10902745352311015
+      },
+      {
+        "feature": "net_margin",
+        "description": "Net margin",
+        "mean_abs_shap": 0.10177160330227338
+      },
+      {
+        "feature": "roa",
+        "description": "Return on assets (net income / assets)",
+        "mean_abs_shap": 0.10174522611403347
+      },
+      {
+        "feature": "leverage",
+        "description": "Liabilities / assets",
+        "mean_abs_shap": 0.09395662644201509
+      },
+      {
+        "feature": "d_leverage",
+        "description": "Change in leverage",
+        "mean_abs_shap": 0.06417092859903452
+      },
+      {
+        "feature": "d_operating_margin",
+        "description": "Change in operating margin",
+        "mean_abs_shap": 0.05839776710949735
+      },
+      {
+        "feature": "revenue_growth",
+        "description": "Revenue growth vs previous year",
+        "mean_abs_shap": 0.05772573846193989
+      },
+      {
+        "feature": "d_roa",
+        "description": "Change in return on assets",
+        "mean_abs_shap": 0.05426948168928897
+      }
+    ],
+    "data_summary": {
+      "rows": 46947,
+      "companies": 7101,
+      "years": [
+        2010,
+        2025
+      ],
+      "base_rate": 0.3478177519330309,
+      "persistence": 0.783997041055357
+    },
+    "conclusions": [
+      "walk_forward, all companies: gradient boosting AUC 0.916, logistic 0.899, persistence 0.834 (base rate 37.3%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.079 to +0.085.",
+      "walk_forward, companies not in distress now (new distress): gradient boosting AUC 0.798, logistic 0.734, loss_now 0.603 (base rate 12.6%); the better model (gradient_boosting) is better than the best baseline (loss_now); the 95% interval of the AUC gain is +0.184 to +0.204.",
+      "unseen_company, all companies: gradient boosting AUC 0.921, logistic 0.900, persistence 0.832 (base rate 34.8%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.086 to +0.091.",
+      "unseen_company, companies not in distress now (new distress): gradient boosting AUC 0.821, logistic 0.740, altman_z2 0.604 (base rate 11.8%); the better model (gradient_boosting) is better than the best baseline (altman_z2); the 95% interval of the AUC gain is +0.204 to +0.230.",
+      "walk_forward_unseen_company, all companies: gradient boosting AUC 0.913, logistic 0.899, persistence 0.834 (base rate 37.3%); the better model (gradient_boosting) is better than the best baseline (persistence); the 95% interval of the AUC gain is +0.077 to +0.082.",
+      "walk_forward_unseen_company, companies not in distress now (new distress): gradient boosting AUC 0.790, logistic 0.733, loss_now 0.603 (base rate 12.6%); the better model (gradient_boosting) is better than the best baseline (loss_now); the 95% interval of the AUC gain is +0.176 to +0.195."
+    ]
+  }
+}

@@ -277,10 +277,82 @@ Reports are in `reports/sec_edgar/`.
   - Reports were refreshed from saved results with
     `refresh_report()`, without refitting.
 
+## Multi-agent system and distress model (2026-11-12)
+
+This responds to the team's request:
+- better ML performance;
+- distress prediction with better features and more data;
+- SHAP explanations;
+- Quantitative Risk, Market and News agents;
+- a LangGraph Manager agent;
+- FinTech integration and end-to-end testing.
+
+**Distress model** (`src/ml/distress/`, `python main.py distress`)
+- **Data:** SEC XBRL frames, about 740 cached requests. That gives an annual
+  panel of 114,304 company-years from 14,884 US filers. Each balance sheet is
+  matched to its exact fiscal year end, which worked for 96% of rows. The
+  training set has 46,947 company-years from 7,101 operating companies
+  (2010–2025).
+- **Results on the strictest test** (later years and unseen companies):
+  - all companies: gradient boosting AUC 0.913, against 0.834 for the
+    persistence baseline;
+  - new distress among currently healthy companies: AUC 0.790, against 0.603
+    for the best baseline.
+
+  The company-cluster bootstrap intervals for the gain all exclude zero. Full
+  report: `reports/distress/`.
+- **SHAP:** a global ranking in the report, and per-company drivers in the
+  Quantitative Risk Agent.
+- **Spot checks:**
+
+  | Company | Score | Rank |
+  |---|---|---|
+  | Apple | 0.015 | Lowest group |
+  | Reliance | 0.044 | Riskier than 10% |
+  | Beyond Meat | 0.968 | In distress; riskier than 90% |
+
+**Agents** (`src/agents/`)
+- **Quantitative Risk:** the existing analysis plus the distress model and
+  SHAP.
+- **Market:** volatility, drawdown, beta, returns relative to the index,
+  valuation.
+- **News:** Yahoo and Google News headlines, sentiment and events; Claude if
+  a key is configured, otherwise a keyword lexicon.
+- **Manager:** a LangGraph graph (resolve → three agents in parallel →
+  manager) that produces the attention level, cross-checks, and a summary
+  (Claude or template). Output is `research_report/1.0`.
+- **API:** FastAPI (`python main.py api`) with `/health`, `/api/analyze`,
+  `/api/research` and `/api/model`. CORS is open.
+
+**Bugs found and fixed while testing**
+- In the provider, annual and quarterly balance sheets shared a cache key.
+  The distress model received quarterly data and found only 10 of 28 inputs.
+  A regression test now covers this.
+- Indian companies' size was measured in INR, while the model learned USD.
+  Assets are now converted at the live exchange rate.
+- Building the SEC panel was slow: a sequential download plus a slow pandas
+  lookup. It now downloads in parallel within the rate limit and uses a dict
+  lookup, so the build takes about 90 s.
+- The test page and the API now answer the browser pane's HEAD check.
+
+**Live check:** `main.py research` returned in 6–12 s.
+
+| Company | Attention level | Why |
+|---|---|---|
+| Apple | Low | All agents agree there is no stress |
+| Reliance | Moderate | 27% price fall and negative news; the Manager notes the conflict with healthy financials |
+| Beyond Meat | High | Statements, model and share price all show stress |
+
+The browser test went through FastAPI and returned HTTP 200.
+
 ## Tests
 
-`python -m unittest discover -s tests -t .` runs 58 tests, all passing, in
-about 15 seconds with no network. They cover:
+`python -m unittest discover -s tests -t .` runs 82 tests, all passing, in
+about 15 seconds with no network. Besides the list below, they cover the
+distress features, labels, folds and metrics, the Market and News agents,
+the attention and cross-check rules, the full LangGraph flow (ok, error and
+failing-agent cases, schema-validated), the FastAPI endpoints, and the
+provider cache. The earlier tests cover:
 - ratio values against hand calculations, and edge cases;
 - the leakage and target checks;
 - ticker resolution with a fake provider, and provider-failure detection;

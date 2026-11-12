@@ -25,6 +25,17 @@ Commands
       (needs SEC_EDGAR_USER_AGENT in .env), cross-check with Yahoo, and the
       evaluation on next-quarter and year-over-year targets -> reports/sec_edgar/
 
+  python main.py distress
+      Financial-distress model on SEC EDGAR data for all US filers:
+      evaluation against baselines, SHAP explanations, saved model.
+
+  python main.py research AAPL
+      Multi-agent report: Quantitative Risk, Market and News agents run in
+      parallel (LangGraph); the Manager combines them.
+
+  python main.py api
+      HTTP API for the FinTech app at http://127.0.0.1:8000 (docs at /docs)
+
   python main.py serve
       Local test page for `analyze` at http://127.0.0.1:8765
 
@@ -213,6 +224,60 @@ def cmd_edgar(args):
     return EXIT_OK
 
 
+def cmd_distress(args):
+    from src.data_collection.sec_edgar import EdgarConfigError
+    from src.ml.distress.model import run
+
+    try:
+        payload = run(refresh=args.refresh)
+    except EdgarConfigError as exc:
+        print(exc)
+        return EXIT_BAD_INPUT
+    print()
+    for line in payload["conclusions"]:
+        print(f"- {line}")
+    print("\nTop factors (SHAP):")
+    for item in payload["final_model"]["global_importance"][:8]:
+        print(f"  {item['description']:<45} {item['mean_abs_shap']:.3f}")
+    print("\nReport: reports/distress/distress_evaluation.md; model: models/distress_model.joblib")
+    return EXIT_OK
+
+
+def cmd_research(args):
+    from src.agents.manager import run_research
+
+    report = run_research(" ".join(args.company), output_root=args.output_dir)
+    if report["status"] == "error":
+        print(f"Error ({report['error']['code']}): {report['error']['message']}")
+        return EXIT_PROVIDER if report["error"]["code"] == "provider_error" else EXIT_BAD_INPUT
+    company, manager = report["company"], report["manager"]
+    print(f"\n{company['name']} ({company['symbol']})  attention level: "
+          f"{manager['attention_level'].upper()}")
+    for name, agent in report["agents"].items():
+        print(f"\n[{name}] {agent['status']} ({agent.get('seconds', 0)}s)\n  {agent['summary']}")
+    print("\nKey findings:")
+    for f in manager["key_findings"]:
+        if f["direction"] == "negative" or f["severity"] in ("high", "medium"):
+            print(f"  [{f['severity']}] {f['agent']}: {f['title']}")
+    for note in manager["cross_checks"]:
+        print(f"  ({note['type']}) {note['detail']}")
+    print(f"\nSummary ({manager['summary_source']}):\n{manager['summary']}")
+    if args.save:
+        out = Path(args.save)
+        out.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
+        print(f"\nSaved: {out}")
+    print(f"\n{report['disclaimer']}")
+    return EXIT_OK
+
+
+def cmd_api(args):
+    import uvicorn
+    from src.api.app import create_app
+
+    uvicorn.run(create_app(output_root=args.output_dir), host=args.host, port=args.port)
+    return EXIT_OK
+
+
 def cmd_serve(args):
     from src.web.server import serve
 
@@ -290,6 +355,25 @@ def build_parser():
     edgar.add_argument("--overwrite", action="store_true",
                        help="replace existing EDGAR evaluation reports")
     edgar.set_defaults(func=cmd_edgar)
+
+    distress = sub.add_parser(
+        "distress", help="financial-distress model: SEC data, evaluation, SHAP, training")
+    distress.add_argument("--refresh", action="store_true",
+                          help="rebuild the SEC EDGAR annual panel")
+    distress.set_defaults(func=cmd_distress)
+
+    research = sub.add_parser(
+        "research", help="multi-agent research report (risk, market, news, manager)")
+    research.add_argument("company", nargs="+", help="ticker or company name")
+    research.add_argument("--output-dir", type=Path, default=None)
+    research.add_argument("--save", default=None, help="write the JSON report to this file")
+    research.set_defaults(func=cmd_research)
+
+    api = sub.add_parser("api", help="HTTP API for the FinTech app (FastAPI)")
+    api.add_argument("--host", default="127.0.0.1")
+    api.add_argument("--port", type=int, default=8000)
+    api.add_argument("--output-dir", type=Path, default=None)
+    api.set_defaults(func=cmd_api)
 
     serve = sub.add_parser("serve", help="local test page for analyze")
     serve.add_argument("--port", type=int, default=8765)

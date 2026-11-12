@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "research_report/1.0",
+  "title": "Multi-agent research report",
+  "description": "Output of `python main.py research` and `GET /api/research`. The full company_analysis/1.0 result is embedded under `analysis`. See docs/output_schema.md.",
+  "type": "object",
+  "required": ["schema_version", "status", "generated_at", "request", "company", "agents",
+               "manager", "analysis", "error", "disclaimer"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "research_report/1.0"},
+    "status": {"enum": ["ok", "error"]},
+    "generated_at": {"type": "string"},
+    "request": {"type": "object", "required": ["input"]},
+    "company": {"oneOf": [{"type": "null"}, {
+      "type": "object",
+      "required": ["symbol", "name", "exchange", "sector", "industry", "country",
+                   "reporting_currency", "resolution"],
+      "properties": {"symbol": {"type": "string"}}
+    }]},
+    "agents": {"oneOf": [{"type": "null"}, {
+      "type": "object",
+      "required": ["quantitative_risk", "market", "news"],
+      "additionalProperties": false,
+      "properties": {
+        "quantitative_risk": {"$ref": "#/$defs/agent"},
+        "market": {"$ref": "#/$defs/agent"},
+        "news": {"$ref": "#/$defs/agent"}
+      }
+    }]},
+    "manager": {"oneOf": [{"type": "null"}, {
+      "type": "object",
+      "required": ["attention_level", "attention_rule", "key_findings", "cross_checks",
+                   "summary", "summary_source", "llm_note"],
+      "additionalProperties": false,
+      "properties": {
+        "attention_level": {"enum": ["low", "moderate", "elevated", "high"]},
+        "attention_rule": {"type": "string"},
+        "key_findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "cross_checks": {"type": "array", "items": {
+          "type": "object", "required": ["type", "detail"],
+          "properties": {"type": {"enum": ["agreement", "conflict"]}, "detail": {"type": "string"}}
+        }},
+        "summary": {"type": "string"},
+        "summary_source": {"enum": ["claude", "template"]},
+        "llm_note": {"type": ["string", "null"]}
+      }
+    }]},
+    "analysis": {"type": ["object", "null"]},
+    "error": {"oneOf": [{"type": "null"}, {
+      "type": "object", "required": ["code", "message", "candidates"],
+      "properties": {
+        "code": {"enum": ["empty_input", "unknown_company", "not_a_company",
+                          "no_financial_data", "provider_error", "internal_error"]},
+        "message": {"type": "string"},
+        "candidates": {"type": "array"}
+      }
+    }]},
+    "disclaimer": {"type": "string"}
+  },
+  "$defs": {
+    "signal": {
+      "type": "object",
+      "required": ["id", "severity", "direction", "title", "detail"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "severity": {"enum": ["high", "medium", "low", "info"]},
+        "direction": {"enum": ["negative", "positive", "neutral"]},
+        "title": {"type": "string"},
+        "detail": {"type": "string"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": ["agent", "id", "severity", "direction", "title", "detail"],
+      "additionalProperties": false,
+      "properties": {
+        "agent": {"enum": ["quantitative_risk", "market", "news"]},
+        "id": {"type": "string"},
+        "severity": {"enum": ["high", "medium", "low", "info"]},
+        "direction": {"enum": ["negative", "positive", "neutral"]},
+        "title": {"type": "string"},
+        "detail": {"type": "string"}
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": ["agent", "status", "summary", "signals", "data", "sources", "errors"],
+      "properties": {
+        "agent": {"type": "string"},
+        "status": {"enum": ["ok", "partial", "unavailable", "error"]},
+        "summary": {"type": "string"},
+        "signals": {"type": "array", "items": {"$ref": "#/$defs/signal"}},
+        "data": {"type": "object"},
+        "sources": {"type": "array", "items": {"type": "string"}},
+        "errors": {"type": "array"},
+        "seconds": {"type": "number"}
+      }
+    }
+  }
+}

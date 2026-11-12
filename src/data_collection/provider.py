@@ -108,6 +108,44 @@ class YahooFinanceProvider:
             raise ProviderError(f"Searching for '{query}' failed: {errors[-1]}")
         return list(result or [])
 
+    def price_history(self, symbol, period="2y"):
+        """Daily prices (DataFrame with Close etc.); empty if none."""
+        key = (symbol, "history", period)
+        if key in self._statements:
+            return self._statements[key]
+        table, errors = self._call(
+            f"Downloading prices for {symbol}",
+            lambda: self._yf.Ticker(symbol).history(period=period, auto_adjust=True),
+        )
+        if (table is None or table.empty) and errors and _looks_like_failure(errors):
+            raise ProviderError(f"Downloading prices for {symbol} failed: {errors[-1]}")
+        table = pd.DataFrame() if table is None else table
+        self._statements[key] = table
+        return table
+
+    def news(self, symbol):
+        """Recent news items from Yahoo Finance (list of dicts); [] if none."""
+        try:
+            items, _ = self._call(f"Fetching news for {symbol}",
+                                  lambda: self._yf.Ticker(symbol).news)
+        except ProviderError:
+            return []
+        return list(items or [])
+
+    def annual_statements(self, symbol):
+        """(income, balance, cashflow) annual statements, line items x dates."""
+        out = []
+        for attribute in ("income_stmt", "balance_sheet", "cashflow"):
+            key = (symbol, "annual", attribute)  # distinct from quarterly cache keys
+            if key not in self._statements:
+                table, _ = self._call(
+                    f"Downloading annual {attribute} for {symbol}",
+                    lambda a=attribute: getattr(self._yf.Ticker(symbol), a),
+                )
+                self._statements[key] = pd.DataFrame() if table is None else table
+            out.append(self._statements[key])
+        return tuple(out)
+
     def profile(self, symbol):
         """Best-effort company profile. Returns {} if it cannot be fetched;
         a missing profile never stops the pipeline."""
@@ -123,7 +161,8 @@ class YahooFinanceProvider:
         keys = [
             "longName", "shortName", "exchange", "fullExchangeName",
             "quoteType", "currency", "financialCurrency", "sector",
-            "industry", "country",
+            "industry", "country", "marketCap", "trailingPE", "forwardPE",
+            "priceToBook", "dividendYield", "fiftyTwoWeekHigh", "fiftyTwoWeekLow",
         ]
         profile = {key: info.get(key) for key in keys if info and info.get(key)}
         self._profiles[symbol] = profile

@@ -174,3 +174,63 @@ errors = validate_payload(result)   # [] when valid
 
 Any JSON Schema 2020-12 validator (e.g. the `jsonschema` package) can also
 use `schemas/company_analysis.schema.json`.
+
+---
+
+# Multi-agent research report (`research_report/1.0`)
+
+The full multi-agent result. Contract:
+[`schemas/research_report.schema.json`](../schemas/research_report.schema.json).
+The complete `company_analysis/1.0` result above is embedded under
+`analysis`.
+
+## HTTP API (FastAPI)
+
+Start it with `python main.py api`. It runs at `http://127.0.0.1:8000`, and
+interactive docs are at `/docs`. Browser apps are allowed to call it (CORS
+is open).
+
+| Endpoint | Returns |
+|---|---|
+| `GET /health` | Status, whether the distress model is loaded, whether an LLM is available |
+| `GET /api/analyze?company=…` | `company_analysis/1.0` (about 3–6 s) |
+| `GET /api/research?company=…` | `research_report/1.0` (about 10–40 s: statements, prices, news) |
+| `GET /api/model` | Distress-model evaluation and top SHAP factors |
+
+HTTP status codes follow the error table above (400, 404, 502, 500).
+
+## Structure
+
+| Field | Contents |
+|---|---|
+| `company` | Symbol, name, exchange, sector, country, reporting currency, how the input was resolved |
+| `agents.quantitative_risk` | Rule-based risk flags, latest ratios, and `data.distress`: the distress model's score rank, whether the company is in distress now, and the top SHAP factors (`effect`: raises or lowers risk) |
+| `agents.market` | 1-year volatility, maximum drawdown, beta and correlation to the index, 3/6/12-month returns, return relative to the index, distance from the 52-week high and low, valuation (P/E, P/B, market cap) |
+| `agents.news` | Up to 25 recent headlines (45 days) with sentiment (−1 to 1), event type and relevance; method `claude` or `lexicon` |
+| `manager.attention_level` | `low` / `moderate` / `elevated` / `high`, set by the rule in `manager.attention_rule` |
+| `manager.key_findings` | All agent signals, highest severity first |
+| `manager.cross_checks` | Where agents agree or conflict (for example, the market shows stress that the financials do not yet show) |
+| `manager.summary` | A written summary; `summary_source` is `claude` or `template` |
+
+Every agent returns the same shape: `{agent, status, summary, signals[],
+data, sources[], errors[], seconds}`.
+- `status` is `ok`, `partial` (some parts missing), `unavailable` (no data)
+  or `error`. One failing agent never breaks the report.
+- A signal is `{id, severity, direction, title, detail}`, and its `detail`
+  states the threshold used.
+
+## Display rules
+
+- Show `attention_level` as **"how much there is to look into"**, never as a
+  buy, sell or hold rating.
+- The distress score is a **rank** ("riskier than X% of US company-years"),
+  not a probability. It applies to non-financial companies, and was trained
+  on US filers.
+- Always show `disclaimer`, `generated_at` and `analysis.source.retrieved_at`.
+
+## LLM (optional)
+
+Set `ANTHROPIC_API_KEY` in `.env` to enable Claude for news classification
+and the manager summary (model `claude-opus-5-5`, server-side refusal
+fallback on). Without a key, or with `AGENTS_USE_LLM=0`, a keyword lexicon
+and a template are used, and every other part works the same.

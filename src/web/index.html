@@ -87,6 +87,7 @@
       <input id="company" type="text" placeholder="Ticker or company name, e.g. RELIANCE.NS or Reliance Industries"
              autocomplete="off" aria-label="Ticker or company name">
       <button class="primary" id="go" type="submit">Analyze</button>
+      <button class="primary" id="research" type="button">Full research (all agents)</button>
     </form>
     <div class="chips" id="examples"></div>
   </section>
@@ -307,6 +308,74 @@ async function run(company) {
   }
 }
 
+const AGENT_LABELS = { quantitative_risk: "Quantitative Risk Agent", market: "Market Agent", news: "News Agent" };
+
+function renderResearch(r) {
+  const m = r.manager, c = r.company, out = [];
+  out.push(el("section", { class: "panel" },
+    el("div", { class: "company" },
+      el("div", {},
+        el("div", { class: "name" }, c.name || c.symbol),
+        el("div", { class: "meta" }, [c.symbol, c.exchange, c.sector, c.country].filter(Boolean).join(" · "))),
+      el("div", {}, el("span", { class: "pill sev-" + ({ high: "error", elevated: "warning", moderate: "warning", low: "ok" }[m.attention_level]) },
+        "Attention: " + m.attention_level))),
+    el("p", { class: "meta" }, m.attention_rule)));
+  out.push(el("section", { class: "panel" },
+    el("h2", {}, `Manager summary (${m.summary_source})`),
+    el("p", {}, m.summary),
+    m.cross_checks.length ? el("ul", { class: "warnings" }, m.cross_checks.map((n) => el("li", {}, `${n.type}: ${n.detail}`))) : null));
+  const findings = m.key_findings.filter((f) => f.direction === "negative" || f.severity !== "info");
+  out.push(el("section", { class: "panel" },
+    el("h2", {}, `Key findings (${findings.length})`),
+    findings.length ? el("div", { class: "table-wrap" }, el("table", {},
+      el("thead", {}, el("tr", {}, ["Severity", "Agent", "Finding", "Detail"].map((h) => el("th", { class: "left" }, h)))),
+      el("tbody", {}, findings.map((f) => el("tr", {},
+        el("td", { class: "left" }, el("span", { class: "pill sev-" + (f.severity === "high" ? "error" : f.severity === "medium" ? "warning" : "info") }, f.severity)),
+        el("td", { class: "left" }, AGENT_LABELS[f.agent] || f.agent),
+        el("td", { class: "left" }, f.title),
+        el("td", { class: "left msg" }, f.detail))))))
+      : el("p", {}, "No notable findings.")));
+  for (const [key, a] of Object.entries(r.agents)) {
+    const box = el("section", { class: "panel" + (key === "quantitative_risk" ? "" : "") },
+      el("h2", {}, `${AGENT_LABELS[key]} — ${a.status} (${a.seconds ?? "?"}s)`),
+      el("p", {}, a.summary));
+    if (key === "quantitative_risk" && a.data.distress && a.data.distress.status === "available") {
+      const d = a.data.distress;
+      box.append(el("p", { class: "meta" }, `Distress model (${d.model}): riskier than ${d.riskier_than_percent_of_training}% of training company-years; statements ${d.fiscal_year_end}. SHAP drivers:`),
+        el("ul", { class: "warnings" }, d.top_factors.map((f) => el("li", {}, `${f.description}: ${f.effect} (SHAP ${f.shap.toFixed(3)}, value ${f.value === null ? "n/a" : f.value.toFixed(3)})`))));
+    }
+    if (key === "news" && a.data.headlines) {
+      box.append(el("details", {}, el("summary", {}, `Headlines (${a.data.headlines.length}, ${a.data.method})`),
+        el("ul", { class: "warnings" }, a.data.headlines.map((h) => el("li", {}, `${h.sentiment >= 0 ? "+" : ""}${h.sentiment.toFixed(2)} [${h.event}] ${h.title}`)))));
+    }
+    out.push(box);
+  }
+  return out;
+}
+
+async function research() {
+  const company = $("company").value.trim();
+  $("research").disabled = true; $("go").disabled = true;
+  $("status").textContent = `Running all agents for "${company}"… (financials, prices and news; 10-40 s)`;
+  $("result").replaceChildren();
+  const started = performance.now();
+  try {
+    const response = await fetch("/api/research?company=" + encodeURIComponent(company));
+    const report = await response.json();
+    $("status").textContent = `HTTP ${response.status} · ${report.status} · ${((performance.now() - started) / 1000).toFixed(1)}s`;
+    const parts = report.status === "ok" ? renderResearch(report) : [renderError(report)];
+    parts.push(el("section", { class: "panel" }, el("details", {}, el("summary", {}, "Raw JSON (research_report)"),
+      el("pre", {}, JSON.stringify({ ...report, analysis: "(see Analyze)" }, null, 2)))));
+    $("result").replaceChildren(...parts);
+    $("footer").textContent = report.disclaimer || "";
+  } catch (e) {
+    $("status").textContent = "Request failed: " + e;
+  } finally {
+    $("research").disabled = false; $("go").disabled = false;
+  }
+}
+
+$("research").addEventListener("click", research);
 $("form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
 for (const example of EXAMPLES) {
   $("examples").append(el("button", { class: "chip", type: "button", onclick: () => run(example) }, example));

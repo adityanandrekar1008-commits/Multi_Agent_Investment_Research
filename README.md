@@ -53,6 +53,37 @@ failure (`provider_error`).
 - Anything else is searched by company name; the match is reported so it
   can be checked.
 
+## Multi-agent research system
+
+```
+                        ┌─> Quantitative Risk Agent ─┐
+company ─> resolve ─────┼─> Market Agent ────────────┼─> Manager Agent ─> research_report/1.0
+ (LangGraph StateGraph) └─> News Agent ──────────────┘   (combined report)
+```
+
+| Agent | What it does | Data |
+|---|---|---|
+| Quantitative Risk | Ratios, 11 rule-based risk flags, the financial-distress model with SHAP explanations | Yahoo statements; model trained on SEC EDGAR |
+| Market | Volatility, drawdown, beta, returns vs the index, valuation | Yahoo daily prices |
+| News | Recent headlines, sentiment, events (lawsuits, downgrades, layoffs, defaults) | Yahoo Finance news, Google News RSS |
+| Manager | Runs the three in parallel; findings by severity; agreement/conflict checks; attention level; written summary | Agent outputs (+ Claude if configured) |
+
+```
+python main.py distress            # train/evaluate the distress model (downloads SEC frames once)
+python main.py research AAPL       # combined report on the command line
+python main.py api                 # HTTP API for the FinTech app: http://127.0.0.1:8000/docs
+```
+
+Optional `.env` settings (git-ignored):
+
+```
+SEC_EDGAR_USER_AGENT=Project Name your.email@example.com   # needed for SEC downloads
+ANTHROPIC_API_KEY=sk-ant-...                               # optional: Claude news classification + summary
+```
+
+Without an API key, the News Agent uses a keyword lexicon and the Manager a
+template summary; everything else is identical.
+
 ## Output for the FinTech app
 
 `analyze` (CLI and `GET /api/analyze?company=...`) returns a stable JSON
@@ -93,7 +124,53 @@ refuse to overwrite existing outputs.
 8. `src/explainability/explain_revenue_decline.py` — coefficients and predictions
 9. `src/ml/evaluate_revenue_decline.py` — the evaluation to quote (below)
 
-## The model: what it is and is not good for
+## Financial-distress model (main ML model)
+
+`python main.py distress` → `reports/distress/distress_evaluation.md`,
+`models/distress_model.joblib`.
+
+- **Target:** distress in the next fiscal year. Distress means any of:
+  - a net loss with negative operating cash flow;
+  - negative equity;
+  - operating income below interest expense.
+- **Data:** SEC EDGAR "frames" for all US filers. That gives 46,947
+  company-years from 7,101 companies, fiscal years 2010–2025. Banks,
+  insurers and shells are excluded.
+- **Features (28):** Altman Z'' and its parts, Piotroski-style profitability
+  and cash-flow measures, leverage, liquidity, interest coverage, one-year
+  changes, and the current distress state.
+- **Models:** gradient boosting (the final model) and logistic regression.
+  They are tested against four baselines: base rate, persistence ("distressed
+  now → distressed next year"), Altman Z'', and "loss this year".
+- **Validation:** training uses only labels known at prediction time. Tested
+  on later years, on unseen companies, and on both together. 95% intervals
+  come from a bootstrap that resamples whole companies.
+
+| Strictest test (later years and unseen companies) | Gradient boosting | Best baseline | AUC gain (95% CI) |
+|---|---|---|---|
+| All companies (37% base rate) | **AUC 0.913**, PR AUC 0.866 | Persistence 0.834 | +0.077 to +0.082 |
+| New distress, currently healthy companies (13% base rate) | **AUC 0.790** | Loss now 0.603 | +0.176 to +0.195 |
+
+95% of the riskiest 10% of companies by score really were in distress the
+next year.
+
+The biggest drivers, by SHAP:
+1. whether the company is already in distress;
+2. interest coverage;
+3. operating cash flow relative to assets;
+4. operating margin;
+5. company size;
+6. retained earnings relative to assets.
+
+**Limits:**
+- US SEC filers only. Indian and other companies are scored from Yahoo
+  statements, with assets converted to USD.
+- The frames data holds the latest filed values, so a few figures may be
+  restated.
+- "Distress" here is an accounting definition, not bankruptcy.
+- Scores are risk ranks, not calibrated probabilities.
+
+## The earlier revenue-decline model: what it is and is not good for
 
 The model is a logistic regression on 5 current-quarter ratios (net and
 operating margin, debt/assets, debt/equity, current ratio). It predicts
